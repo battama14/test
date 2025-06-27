@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LFIST - DeFi & Tokenomics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/defi.css" />
+  <link rel="stylesheet" href="css/defi-custom.css" />
+  <meta name="description" content="Explorez l'écosystème DeFi de LFIST - Staking, Farming, et données en temps réel!" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-animation">
+      <div class="lfist-loader"><i class="fas fa-coins"></i></div>
+      <div class="loading-text" data-i18n="common.loading">CHARGEMENT...</div>
+      <div class="loading-bar">
+        <div class="loading-progress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Price Ticker -->
+  <div id="price-ticker" class="price-ticker">
+    <div class="ticker-content">
+      <span class="ticker-item">
+        <i class="fas fa-chart-line"></i>
+        LFIST: <span id="lfist-price" class="lfist-price-usd">$0.000000</span>
+        <span id="price-change" class="lfist-price-change-24h price-change">+0.00%</span>
+      </span>
+      <span class="ticker-item">
+        <i class="fas fa-users"></i>
+        <span data-i18n="home.holders">Holders</span>: <span id="holder-count">0</span>
+      </span>
+      <span class="ticker-item">
+        <i class="fas fa-trophy"></i>
+        <span data-i18n="leaderboard.topPlayers">Leader du jour</span>: <span id="daily-leader">Chargement...</span>
+      </span>
+      <span class="ticker-item">
+        <i class="fas fa-coins"></i>
+        <span data-i18n="common.points">Points</span>: <span class="user-points-count">0</span>
+      </span>
+    </div>
+  </div>
+
+  <header>
+    <div class="logo">
+      <img src="images/logoLFIST.png" alt="LFIST" class="logo-img" />
+      LFIST
+    </div>
+    <nav class="nav-menu">
+      <a href="index.html" data-i18n="common.home"><i class="fas fa-home"></i> Accueil</a>
+      <a href="games.html" data-i18n="common.games"><i class="fas fa-gamepad"></i> Jeux</a>
+      <a href="memes.html" data-i18n="common.memes"><i class="fas fa-images"></i> Memes</a>
+      <a href="leaderboard.html" data-i18n="common.leaderboard"><i class="fas fa-trophy"></i> Classement</a>
+      <a href="defi.html" class="active" data-i18n="common.defi"><i class="fas fa-coins"></i> DeFi</a>
+      <a href="rewards.html" data-i18n="rewards.title"><i class="fas fa-gift"></i> Récompenses</a>
+      <a href="whitepaper.html" target="_blank" class="whitepaper-link" data-i18n="common.whitepaper"><i class="fas fa-file-alt"></i> White Paper</a>
+    </nav>
+    <div class="header-controls">
+      <button id="connectWallet" class="wallet-btn" data-i18n="common.connectWallet">
+        <i class="fas fa-wallet"></i> Connect Wallet
+      </button>
+      <button id="languageButton" class="language-btn">🇫🇷 Français</button>
+      <div id="burger" class="burger">☰</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- DeFi Hero Section -->
+    <section id="defi-hero" class="hero defi-hero">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          <span class="glitch" data-text="LFIST DEFI">LFIST DEFI</span>
+          <span class="subtitle">FINANCE DÉCENTRALISÉE</span>
+        </h1>
+        
+        <p class="hero-description">
+          Explorez l'écosystème DeFi de LFIST avec des opportunités de staking, farming et liquidité. 
+          Gagnez des récompenses passives tout en soutenant le projet.
+        </p>
+
+        <!-- DeFi Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+            <div class="stat-value" id="tvl">$0</div>
+            <div class="stat-label">TVL (Total Value Locked)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-percentage"></i></div>
+            <div class="stat-value" id="apy">0%</div>
+            <div class="stat-label">APY Moyen</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-users"></i></div>
+            <div class="stat-value" id="stakers">0</div>
+            <div class="stat-label">Stakers Actifs</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-coins"></i></div>
+            <div class="stat-value" id="rewards-distributed">0</div>
+            <div class="stat-label">Récompenses Distribuées</div>
+          </div>
+        </div>
+
+        <!-- DeFi Action Buttons -->
+        <div class="hero-buttons">
+          <button id="stake-btn" class="btn btn-primary pulse">
+            <i class="fas fa-hand-holding-usd"></i> STAKER MAINTENANT
+          </button>
+          <button id="farm-btn" class="btn btn-secondary">
+            <i class="fas fa-seedling"></i> FARMING
+          </button>
+          <button id="liquidity-btn" class="btn btn-meme">
+            <i class="fas fa-water"></i> AJOUTER DE LA LIQUIDITÉ
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Staking Section -->
+    <section id="staking" class="defi-section staking-section">
+      <div class="section-container">
+        <h2 class="section-title">STAKING LFIST</h2>
+        <p class="section-subtitle">Bloquez vos tokens LFIST et gagnez des récompenses passives</p>
+      
+      <div class="staking-pools">
+        <div class="pool-card">
+          <div class="pool-header">
+            <div class="pool-icon">
+              <img src="https://via.placeholder.com/40x40/4f8cff/ffffff?text=LFIST" alt="LFIST">
+            </div>
+            <div class="pool-title">
+              <h3>Pool Flexible</h3>
+              <span class="pool-apy">APY: <span id="flexible-apy">12%</span></span>
+            </div>
+          </div>
+          <div class="pool-body">
+            <div class="pool-info">
+              <div class="info-item">
+                <span class="info-label">Durée:</span>
+                <span class="info-value">Flexible</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Récompenses:</span>
+                <span class="info-value">Quotidiennes</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Min. Stake:</span>
+                <span class="info-value">1,000 LFIST</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Total Staké:</span>
+                <span class="info-value" id="flexible-tvl">500,000 LFIST</span>
+              </div>
+            </div>
+            <div class="beginner-help">
+              <p><i class="fas fa-info-circle"></i> Option idéale pour les débutants. Vous pouvez retirer vos tokens à tout moment sans pénalité.</p>
+            </div>
+            <div class="pool-actions">
+              <button class="btn btn-primary stake-pool-btn" data-pool="flexible">
+                <i class="fas fa-plus-circle"></i> STAKER
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="pool-card">
+          <div class="pool-header">
+            <div class="pool-icon">
+              <img src="https://via.placeholder.com/40x40/4f8cff/ffffff?text=LFIST" alt="LFIST">
+            </div>
+            <div class="pool-title">
+              <h3>Pool 30 Jours</h3>
+              <span class="pool-apy">APY: <span id="30days-apy">25%</span></span>
+            </div>
+          </div>
+          <div class="pool-body">
+            <div class="pool-info">
+              <div class="info-item">
+                <span class="info-label">Durée:</span>
+                <span class="info-value">30 Jours (Lock)</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Récompenses:</span>
+                <span class="info-value">À la fin du lock</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Min. Stake:</span>
+                <span class="info-value">5,000 LFIST</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Total Staké:</span>
+                <span class="info-value" id="30days-tvl">1,200,000 LFIST</span>
+              </div>
+            </div>
+            <div class="beginner-help">
+              <p><i class="fas fa-info-circle"></i> Bon équilibre entre rendement et durée. Vos tokens sont bloqués pendant 30 jours.</p>
+            </div>
+            <div class="pool-actions">
+              <button class="btn btn-primary stake-pool-btn" data-pool="30days">
+                <i class="fas fa-plus-circle"></i> STAKER
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="pool-card">
+          <div class="pool-header">
+            <div class="pool-icon">
+              <img src="https://via.placeholder.com/40x40/4f8cff/ffffff?text=LFIST" alt="LFIST">
+            </div>
+            <div class="pool-title">
+              <h3>Pool 90 Jours</h3>
+              <span class="pool-apy">APY: <span id="90days-apy">40%</span></span>
+            </div>
+          </div>
+          <div class="pool-body">
+            <div class="pool-info">
+              <div class="info-item">
+                <span class="info-label">Durée:</span>
+                <span class="info-value">90 Jours (Lock)</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Récompenses:</span>
+                <span class="info-value">À la fin du lock</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Min. Stake:</span>
+                <span class="info-value">10,000 LFIST</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Total Staké:</span>
+                <span class="info-value" id="90days-tvl">3,500,000 LFIST</span>
+              </div>
+            </div>
+            <div class="beginner-help">
+              <p><i class="fas fa-info-circle"></i> Meilleur rendement pour les investisseurs à long terme. Vos tokens sont bloqués pendant 90 jours.</p>
+            </div>
+            <div class="pool-actions">
+              <button class="btn btn-primary stake-pool-btn" data-pool="90days">
+                <i class="fas fa-plus-circle"></i> STAKER
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- User Staking Info -->
+      <div id="user-staking-info" class="user-defi-info" style="display: none;">
+        <h3>Vos Positions de Staking</h3>
+        <div class="user-positions">
+          <div class="position-card">
+            <div class="position-header">
+              <h4>Pool Flexible</h4>
+              <span class="position-status active">Actif</span>
+            </div>
+            <div class="position-body">
+              <div class="position-info">
+                <div class="info-item">
+                  <span class="info-label">Montant Staké:</span>
+                  <span class="info-value" id="user-flexible-amount">0 LFIST</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Récompenses Accumulées:</span>
+                  <span class="info-value" id="user-flexible-rewards">0 LFIST</span>
+                </div>
+              </div>
+              <div class="position-actions">
+                <button class="btn btn-secondary claim-btn" data-pool="flexible">
+                  <i class="fas fa-hand-holding-usd"></i> RÉCLAMER
+                </button>
+                <button class="btn btn-meme unstake-btn" data-pool="flexible">
+                  <i class="fas fa-minus-circle"></i> UNSTAKE
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Not Connected Message -->
+      <div id="staking-not-connected" class="not-connected-message">
+        <i class="fas fa-wallet"></i>
+        <h3>Connectez votre wallet pour voir vos positions de staking</h3>
+        <button id="connect-for-staking" class="btn btn-primary">
+          <i class="fas fa-plug"></i> CONNECTER WALLET
+        </button>
+      </div>
+      </div><!-- Fin section-container -->
+    </section>
+
+    <!-- Farming Section -->
+    <section id="farming" class="defi-section farming-section">
+      <div class="section-container">
+        <h2 class="section-title">FARMING LFIST</h2>
+        <p class="section-subtitle">Fournissez de la liquidité et gagnez des récompenses supplémentaires</p>
+      
+      <div class="farming-pools">
+        <div class="pool-card">
+          <div class="pool-header">
+            <div class="pool-icon">
+              <div class="token-pair">
+                <img src="https://via.placeholder.com/40x40/4f8cff/ffffff?text=LFIST" alt="LFIST">
+                <img src="https://via.placeholder.com/40x40/f3ba2f/000000?text=BNB" alt="BNB">
+              </div>
+            </div>
+            <div class="pool-title">
+              <h3>LFIST-BNB LP</h3>
+              <span class="pool-apy">APY: <span id="lfist-bnb-apy">60%</span></span>
+            </div>
+          </div>
+          <div class="pool-body">
+            <div class="pool-info">
+              <div class="info-item">
+                <span class="info-label">Récompenses:</span>
+                <span class="info-value">LFIST</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Total Verrouillé:</span>
+                <span class="info-value" id="lfist-bnb-tvl">$250,000</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Multiplicateur:</span>
+                <span class="info-value">40x</span>
+              </div>
+            </div>
+            <div class="pool-actions">
+              <a href="https://pancakeswap.finance/add/BNB/0xc0679bF1fda759B7CfC44691b422405Fae84253f" target="_blank" class="btn btn-secondary">
+                <i class="fas fa-plus-circle"></i> OBTENIR LP
+              </a>
+              <button class="btn btn-primary farm-pool-btn" data-pool="lfist-bnb">
+                <i class="fas fa-seedling"></i> FARMER
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="pool-card">
+          <div class="pool-header">
+            <div class="pool-icon">
+              <div class="token-pair">
+                <img src="https://via.placeholder.com/40x40/4f8cff/ffffff?text=LFIST" alt="LFIST">
+                <img src="https://via.placeholder.com/40x40/f0b90b/000000?text=BUSD" alt="BUSD">
+              </div>
+            </div>
+            <div class="pool-title">
+              <h3>LFIST-BUSD LP</h3>
+              <span class="pool-apy">APY: <span id="lfist-busd-apy">45%</span></span>
+            </div>
+          </div>
+          <div class="pool-body">
+            <div class="pool-info">
+              <div class="info-item">
+                <span class="info-label">Récompenses:</span>
+                <span class="info-value">LFIST</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Total Verrouillé:</span>
+                <span class="info-value" id="lfist-busd-tvl">$150,000</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Multiplicateur:</span>
+                <span class="info-value">20x</span>
+              </div>
+            </div>
+            <div class="pool-actions">
+              <a href="https://pancakeswap.finance/add/0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56/0xc0679bF1fda759B7CfC44691b422405Fae84253f" target="_blank" class="btn btn-secondary">
+                <i class="fas fa-plus-circle"></i> OBTENIR LP
+              </a>
+              <button class="btn btn-primary farm-pool-btn" data-pool="lfist-busd">
+                <i class="fas fa-seedling"></i> FARMER
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Nouvelles pools de farming pour cryptos stables -->
+        <div class="pool-card">
+          <div class="pool-header">
+            <div class="pool-icon">
+              <div class="token-pair">
+                <img src="https://via.placeholder.com/40x40/f3ba2f/000000?text=BNB" alt="BNB">
+                <img src="https://via.placeholder.com/40x40/f0b90b/000000?text=BUSD" alt="BUSD">
+              </div>
+            </div>
+            <div class="pool-title">
+              <h3>BNB-BUSD LP</h3>
+              <span class="pool-apy">APY: <span id="bnb-busd-apy">8.5%</span></span>
+            </div>
+          </div>
+          <div class="pool-body">
+            <div class="pool-info">
+              <div class="info-item">
+                <span class="info-label">Récompenses:</span>
+                <span class="info-value">BNB</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Total Verrouillé:</span>
+                <span class="info-value" id="bnb-busd-tvl">$1,250,000</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Risque:</span>
+                <span class="info-value">Faible</span>
+              </div>
+            </div>
+            <div class="beginner-help">
+              <p><i class="fas fa-info-circle"></i> Cette paire de stablecoins offre un rendement stable avec un risque minimal de perte impermanente.</p>
+            </div>
+            <div class="pool-actions">
+              <a href="https://pancakeswap.finance/add/BNB/0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56" target="_blank" class="btn btn-secondary">
+                <i class="fas fa-plus-circle"></i> OBTENIR LP
+              </a>
+              <button class="btn btn-primary farm-pool-btn" data-pool="bnb-busd">
+                <i class="fas fa-seedling"></i> FARMER
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="pool-card">
+          <div class="pool-header">
+            <div class="pool-icon">
+              <div class="token-pair">
+                <img src="https://via.placeholder.com/40x40/f7931a/ffffff?text=BTCB" alt="BTCB">
+                <img src="https://via.placeholder.com/40x40/f0b90b/000000?text=BUSD" alt="BUSD">
+              </div>
+            </div>
+            <div class="pool-title">
+              <h3>BTCB-BUSD LP</h3>
+              <span class="pool-apy">APY: <span id="btcb-busd-apy">7.2%</span></span>
+            </div>
+          </div>
+          <div class="pool-body">
+            <div class="pool-info">
+              <div class="info-item">
+                <span class="info-label">Récompenses:</span>
+                <span class="info-value">BTCB</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Total Verrouillé:</span>
+                <span class="info-value" id="btcb-busd-tvl">$950,000</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Risque:</span>
+                <span class="info-value">Modéré</span>
+              </div>
+            </div>
+            <div class="beginner-help">
+              <p><i class="fas fa-info-circle"></i> Cette paire offre une exposition au Bitcoin avec un risque modéré.</p>
+            </div>
+            <div class="pool-actions">
+              <a href="https://pancakeswap.finance/add/0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c/0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56" target="_blank" class="btn btn-secondary">
+                <i class="fas fa-plus-circle"></i> OBTENIR LP
+              </a>
+              <button class="btn btn-primary farm-pool-btn" data-pool="btcb-busd">
+                <i class="fas fa-seedling"></i> FARMER
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="pool-card">
+          <div class="pool-header">
+            <div class="pool-icon">
+              <div class="token-pair">
+                <img src="https://via.placeholder.com/40x40/f0b90b/000000?text=BUSD" alt="BUSD">
+                <img src="https://via.placeholder.com/40x40/26a17b/ffffff?text=USDT" alt="USDT">
+              </div>
+            </div>
+            <div class="pool-title">
+              <h3>BUSD-USDT LP</h3>
+              <span class="pool-apy">APY: <span id="busd-usdt-apy">5.8%</span></span>
+            </div>
+          </div>
+          <div class="pool-body">
+            <div class="pool-info">
+              <div class="info-item">
+                <span class="info-label">Récompenses:</span>
+                <span class="info-value">BUSD</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Total Verrouillé:</span>
+                <span class="info-value" id="busd-usdt-tvl">$2,500,000</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Risque:</span>
+                <span class="info-value">Très Faible</span>
+              </div>
+            </div>
+            <div class="beginner-help">
+              <p><i class="fas fa-info-circle"></i> Cette paire de stablecoins offre le rendement le plus sûr avec un risque minimal.</p>
+            </div>
+            <div class="pool-actions">
+              <a href="https://pancakeswap.finance/add/0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56/0x55d398326f99059fF775485246999027B3197955" target="_blank" class="btn btn-secondary">
+                <i class="fas fa-plus-circle"></i> OBTENIR LP
+              </a>
+              <button class="btn btn-primary farm-pool-btn" data-pool="busd-usdt">
+                <i class="fas fa-seedling"></i> FARMER
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- User Farming Info -->
+      <div id="user-farming-info" class="user-defi-info" style="display: none;">
+        <h3>Vos Positions de Farming</h3>
+        <div class="user-positions">
+          <!-- Sera rempli dynamiquement -->
+        </div>
+      </div>
+      
+      <!-- Not Connected Message -->
+      <div id="farming-not-connected" class="not-connected-message">
+        <i class="fas fa-wallet"></i>
+        <h3>Connectez votre wallet pour voir vos positions de farming</h3>
+        <button id="connect-for-farming" class="btn btn-primary">
+          <i class="fas fa-plug"></i> CONNECTER WALLET
+        </button>
+      </div>
+      </div><!-- Fin section-container -->
+    </section>
+
+    <!-- Liquidity Section -->
+    <section id="liquidity" class="defi-section liquidity-section">
+      <div class="section-container">
+        <h2 class="section-title">LIQUIDITÉ LFIST</h2>
+        <p class="section-subtitle">Fournissez de la liquidité pour soutenir l'écosystème LFIST</p>
+      
+      <div class="liquidity-info">
+        <div class="info-card">
+          <div class="info-icon"><i class="fas fa-water"></i></div>
+          <h3>Pourquoi fournir de la liquidité?</h3>
+          <p>
+            En fournissant de la liquidité, vous permettez aux traders d'acheter et vendre LFIST plus facilement.
+            En échange, vous recevez des tokens LP qui peuvent être stakés pour gagner des récompenses supplémentaires.
+          </p>
+        </div>
+        
+        <div class="info-card">
+          <div class="info-icon"><i class="fas fa-coins"></i></div>
+          <h3>Récompenses de liquidité</h3>
+          <p>
+            Les fournisseurs de liquidité gagnent une part des frais de transaction (0.17%) proportionnellement à leur part de la pool.
+            De plus, vous pouvez staker vos tokens LP dans nos pools de farming pour des récompenses supplémentaires.
+          </p>
+        </div>
+        
+        <div class="info-card">
+          <div class="info-icon"><i class="fas fa-shield-alt"></i></div>
+          <h3>Risques et précautions</h3>
+          <p>
+            Fournir de la liquidité comporte des risques, notamment la perte impermanente. Assurez-vous de comprendre ces risques avant de participer.
+            Consultez notre documentation pour plus d'informations.
+          </p>
+        </div>
+      </div>
+      
+      <div class="liquidity-actions">
+        <a href="https://pancakeswap.finance/add/BNB/0xc0679bF1fda759B7CfC44691b422405Fae84253f" target="_blank" class="btn btn-primary">
+          <i class="fas fa-plus-circle"></i> AJOUTER LFIST-BNB LP
+        </a>
+        <a href="https://pancakeswap.finance/add/0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56/0xc0679bF1fda759B7CfC44691b422405Fae84253f" target="_blank" class="btn btn-secondary">
+          <i class="fas fa-plus-circle"></i> AJOUTER LFIST-BUSD LP
+        </a>
+        <a href="https://pancakeswap.finance/liquidity" target="_blank" class="btn btn-meme">
+          <i class="fas fa-search"></i> VOIR MES LP
+        </a>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq-section">
+      <div class="section-container">
+        <h2 class="section-title">QUESTIONS FRÉQUENTES</h2>
+        <p class="section-subtitle">Tout ce que vous devez savoir sur LFIST DeFi</p>
+      
+      <div class="faq-container">
+        <div class="faq-item">
+          <div class="faq-question">
+            <h3>Qu'est-ce que le staking LFIST?</h3>
+            <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+          </div>
+          <div class="faq-answer">
+            <p>
+              Le staking LFIST vous permet de verrouiller vos tokens LFIST dans des contrats intelligents pour gagner des récompenses passives.
+              Plus vous stakez longtemps, plus les récompenses sont importantes. C'est un moyen simple de faire fructifier vos avoirs tout en soutenant le projet.
+            </p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <h3>Comment fonctionne le farming?</h3>
+            <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+          </div>
+          <div class="faq-answer">
+            <p>
+              Le farming consiste à fournir des tokens de liquidité (LP) à nos pools de farming pour gagner des récompenses supplémentaires en LFIST.
+              Pour participer, vous devez d'abord fournir de la liquidité sur PancakeSwap pour obtenir des tokens LP, puis les staker dans nos pools de farming.
+            </p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <h3>Quels sont les risques du staking et du farming?</h3>
+            <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+          </div>
+          <div class="faq-answer">
+            <p>
+              Le staking comporte généralement peu de risques, mais vos tokens sont verrouillés pendant la période de staking.
+              Le farming comporte des risques supplémentaires, notamment la perte impermanente due aux fluctuations de prix entre les paires de tokens.
+              Assurez-vous de comprendre ces risques avant de participer.
+            </p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <h3>Comment sont calculées les récompenses?</h3>
+            <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+          </div>
+          <div class="faq-answer">
+            <p>
+              Les récompenses sont calculées en fonction du montant staké, de la durée du staking et du taux APY de la pool.
+              Pour le farming, les récompenses dépendent également de votre part dans la pool et du multiplicateur de la pool.
+              Les récompenses sont distribuées en tokens LFIST.
+            </p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <h3>Puis-je retirer mes tokens avant la fin de la période de lock?</h3>
+            <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+          </div>
+          <div class="faq-answer">
+            <p>
+              Pour les pools flexibles, vous pouvez retirer vos tokens à tout moment.
+              Pour les pools avec période de lock (30 jours, 90 jours), un retrait anticipé est possible mais entraîne une pénalité de 10% sur les récompenses accumulées.
+              Cette pénalité est redistribuée aux autres stakers de la pool.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-grid">
+        <!-- LFIST Info -->
+        <div class="footer-section">
+          <h3>LFIST</h3>
+          <p>
+            Le memecoin viral qui révolutionne le gaming crypto avec des jeux innovants et une communauté engagée.
+          </p>
+          <div class="social-links">
+            <a href="https://t.me/lfistcoin" target="_blank">
+              <i class="fab fa-telegram"></i>
+            </a>
+            <a href="https://twitter.com/lfistcoin" target="_blank">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://discord.gg/lfist" target="_blank">
+              <i class="fab fa-discord"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-section">
+          <h3>Liens Rapides</h3>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="games.html">Jeux</a></li>
+            <li><a href="memes.html">Memes</a></li>
+            <li><a href="leaderboard.html">Classement</a></li>
+            <li><a href="defi.html">DeFi</a></li>
+            <li><a href="whitepaper.html">White Paper</a></li>
+          </ul>
+        </div>
+
+        <!-- DeFi Links -->
+        <div class="footer-section">
+          <h3>DeFi</h3>
+          <ul>
+            <li><a href="#staking">Staking</a></li>
+            <li><a href="#farming">Farming</a></li>
+            <li><a href="#liquidity">Liquidité</a></li>
+            <li><a href="https://pancakeswap.finance/swap?outputCurrency=0xc0679bF1fda759B7CfC44691b422405Fae84253f" target="_blank">PancakeSwap</a></li>
+          </ul>
+        </div>
+
+        <!-- Stats -->
+        <div class="footer-section">
+          <h3>Statistiques</h3>
+          <div class="footer-stats">
+            <div><i class="fas fa-eye"></i> <span id="footer-visits">Loading...</span> Visites</div>
+            <div><i class="fas fa-gamepad"></i> <span id="footer-games-played">50,000+</span> Parties Jouées</div>
+            <div><i class="fas fa-users"></i> <span id="footer-active-players">2,500+</span> Joueurs Actifs</div>
+            <div><i class="fas fa-user-check"></i> <span id="footer-holders">10,000+</span> Holders</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Copyright -->
+      <div class="footer-bottom">
+        <p>
+          © 2024 LFIST - Tous droits réservés
+        </p>
+        <p>
+          LFIST est un projet crypto expérimental. Investissez de manière responsable.
+        </p>
+        <div>
+          Fait avec <i class="fas fa-heart"></i> pour la communauté crypto
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modals -->
+  <!-- Stake Modal -->
+  <div id="stake-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Staker LFIST</h2>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="stake-amount">Montant à staker:</label>
+          <input type="number" id="stake-amount" min="1000" placeholder="Entrez le montant..." />
+        </div>
+        <div class="form-group">
+          <label for="stake-pool">Pool:</label>
+          <select id="stake-pool">
+            <option value="flexible">Pool Flexible (12% APY)</option>
+            <option value="30days">Pool 30 Jours (25% APY)</option>
+            <option value="90days">Pool 90 Jours (40% APY)</option>
+          </select>
+        </div>
+        <div class="form-info">
+          <p>Balance LFIST: <span id="user-lfist-balance">0</span></p>
+          <p>Récompenses estimées: <span id="estimated-rewards">0</span> LFIST</p>
+        </div>
+        <div class="form-actions">
+          <button id="confirm-stake" class="btn btn-primary">
+            <i class="fas fa-check-circle"></i> CONFIRMER
+          </button>
+          <button class="btn btn-secondary close-modal-btn">
+            <i class="fas fa-times-circle"></i> ANNULER
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Farm Modal -->
+  <div id="farm-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Farmer LFIST</h2>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="farm-amount">Montant LP à staker:</label>
+          <input type="number" id="farm-amount" min="0.001" step="0.001" placeholder="Entrez le montant..." />
+        </div>
+        <div class="form-group">
+          <label for="farm-pool">Pool:</label>
+          <select id="farm-pool">
+            <option value="lfist-bnb">LFIST-BNB LP (60% APY)</option>
+            <option value="lfist-busd">LFIST-BUSD LP (45% APY)</option>
+          </select>
+        </div>
+        <div class="form-info">
+          <p>Balance LP: <span id="user-lp-balance">0</span></p>
+          <p>Récompenses estimées: <span id="estimated-farm-rewards">0</span> LFIST/jour</p>
+        </div>
+        <div class="form-actions">
+          <button id="confirm-farm" class="btn btn-primary">
+            <i class="fas fa-check-circle"></i> CONFIRMER
+          </button>
+          <button class="btn btn-secondary close-modal-btn">
+            <i class="fas fa-times-circle"></i> ANNULER
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/i18n.js"></script>
+  <script src="js/user-context.js"></script>
+  <script src="js/welcome-modal.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/defi.js"></script>
+  <script src="js/rewards.js"></script>
+  <script src="js/dexscreener.js"></script>
+  <script src="js/defi-ui.js"></script>
+  
+  <!-- PWA Support -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+  
+  <!-- Styles supplémentaires pour centrer et améliorer la présentation -->
+  <style>
+    /* Centrage des sections */
+    .section-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Amélioration de la présentation des cartes de pools */
+    .pool-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    
+    .pool-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .pool-header {
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      background-color: rgba(79, 140, 255, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .pool-icon {
+      margin-right: 15px;
+    }
+    
+    .pool-icon img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #fff;
+      padding: 5px;
+    }
+    
+    .token-pair {
+      position: relative;
+      width: 50px;
+      height: 40px;
+    }
+    
+    .token-pair img:first-child {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: #fff;
+      padding: 3px;
+      z-index: 2;
+    }
+    
+    .token-pair img:last-child {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: #fff;
+      padding: 3px;
+      z-index: 1;
+    }
+    
+    .pool-title h3 {
+      margin: 0 0 5px 0;
+      font-size: 18px;
+    }
+    
+    .pool-apy {
+      font-size: 14px;
+      color: #4f8cff;
+    }
+    
+    .pool-body {
+      padding: 15px;
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+    
+    .pool-info {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .info-item {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .info-label {
+      font-size: 12px;
+      color: #aaa;
+    }
+    
+    .info-value {
+      font-size: 14px;
+      font-weight: bold;
+    }
+    
+    .pool-description {
+      margin-bottom: 15px;
+      font-size: 14px;
+      color: #ddd;
+    }
+    
+    .pool-actions {
+      display: flex;
+      gap: 10px;
+    }
+    
+    /* Styles spécifiques au mode débutant */
+    .beginner-mode .beginner-help {
+      display: block;
+      background-color: rgba(79, 140, 255, 0.1);
+      border-left: 4px solid #4f8cff;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 0 5px 5px 0;
+    }
+    
+    .classic-mode .beginner-help {
+      display: none;
+    }
+    
+    /* Amélioration des formulaires */
+    input, select, textarea {
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      border-color: #4f8cff;
+      box-shadow: 0 0 0 2px rgba(79, 140, 255, 0.2);
+      outline: none;
+    }
+    
+    /* Amélioration des boutons */
+    .btn {
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+    
+    .btn:active {
+      transform: translateY(1px);
+    }
+    
+    /* Amélioration des modals */
+    .modal-content {
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    
+    /* Amélioration des tableaux */
+    table {
+      border-collapse: separate;
+      border-spacing: 0;
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    th {
+      background-color: rgba(79, 140, 255, 0.1);
+      font-weight: bold;
+    }
+    
+    tr:last-child td {
+      border-bottom: none;
+    }
+    
+    tr:hover td {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+    
+    /* Amélioration des statistiques */
+    .stats-card {
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .stats-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .stats-icon {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #4f8cff;
+    }
+    
+    .stats-value {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    .stats-label {
+      font-size: 14px;
+      color: #aaa;
+    }
+  </style>
+</body>
+</html>

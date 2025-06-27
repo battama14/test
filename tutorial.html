@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LFIST - Guide du Débutant en Crypto</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <meta name="description" content="Guide complet pour les débutants en cryptomonnaie - Apprenez les bases et rejoignez la révolution LFIST!" />
+  <style>
+    /* Styles spécifiques à la page tutoriel */
+    .tutorial-section {
+      padding: 3rem 0;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .tutorial-card {
+      background: rgba(26, 26, 46, 0.8);
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border-left: 5px solid var(--primary-color);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .tutorial-card h3 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+    
+    .tutorial-card p {
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+    
+    .tutorial-card ul {
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .tutorial-card li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .tutorial-card .highlight {
+      color: var(--accent-color);
+      font-weight: bold;
+    }
+    
+    .tutorial-card .warning {
+      color: var(--error-color);
+      font-weight: bold;
+    }
+    
+    .tutorial-card .success {
+      color: var(--success-color);
+      font-weight: bold;
+    }
+    
+    .tutorial-steps {
+      counter-reset: step;
+      margin: 2rem 0;
+    }
+    
+    .tutorial-step {
+      position: relative;
+      padding-left: 3rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .tutorial-step::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 2rem;
+      height: 2rem;
+      background: var(--primary-color);
+      color: var(--bg-primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    
+    .tutorial-image {
+      width: 100%;
+      border-radius: 10px;
+      margin: 1rem 0;
+      border: 2px solid var(--primary-color);
+    }
+    
+    .tutorial-cta {
+      text-align: center;
+      margin: 3rem 0;
+    }
+    
+    .tutorial-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.1);
+      z-index: 1000;
+    }
+    
+    .tutorial-progress-bar {
+      height: 100%;
+      background: var(--primary-color);
+      width: 0;
+      transition: width 0.3s ease;
+    }
+    
+    .tutorial-nav {
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      z-index: 1000;
+    }
+    
+    .tutorial-nav-item {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .tutorial-nav-item.active {
+      background: var(--primary-color);
+      transform: scale(1.3);
+    }
+    
+    .tutorial-nav-item:hover {
+      background: var(--primary-color);
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-animation">
+      <div class="lfist-loader"><i class="fas fa-graduation-cap"></i></div>
+      <div class="loading-text">PRÉPARATION DU GUIDE...</div>
+      <div class="loading-bar">
+        <div class="loading-progress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="tutorial-progress">
+    <div class="tutorial-progress-bar" id="progress-bar"></div>
+  </div>
+
+  <!-- Navigation Dots -->
+  <div class="tutorial-nav" id="tutorial-nav"></div>
+
+  <header>
+    <div class="logo">
+      <img src="images/logoLFIST.png" alt="LFIST" class="logo-img" />
+      LFIST
+    </div>
+    <nav class="nav-menu">
+      <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
+      <a href="games.html"><i class="fas fa-gamepad"></i> Jeux</a>
+      <a href="memes.html"><i class="fas fa-images"></i> Memes</a>
+      <a href="leaderboard.html"><i class="fas fa-trophy"></i> Classement</a>
+      <a href="defi.html"><i class="fas fa-coins"></i> DeFi</a>
+      <a href="whitepaper.html" target="_blank" class="whitepaper-link"><i class="fas fa-file-alt"></i> White Paper</a>
+    </nav>
+    <div class="header-controls">
+      <button id="connectWallet" class="wallet-btn">
+        <i class="fas fa-wallet"></i> Connect Wallet
+      </button>
+      <button id="languageButton" class="language-btn">🇫🇷 Français</button>
+      <div id="burger" class="burger">☰</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="tutorial-hero" class="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          <span class="glitch" data-text="GUIDE CRYPTO">GUIDE CRYPTO</span>
+          <span class="subtitle">POUR LES DÉBUTANTS</span>
+        </h1>
+        
+        <p class="hero-description">
+          Bienvenue dans le monde fascinant des cryptomonnaies ! Ce guide vous aidera à comprendre les bases et à démarrer votre aventure crypto en toute sécurité.
+        </p>
+      </div>
+    </section>
+
+    <!-- Tutorial Content -->
+    <div class="tutorial-section">
+      <!-- Introduction -->
+      <div class="tutorial-card" id="section-intro">
+        <h3><i class="fas fa-rocket"></i> Introduction aux Cryptomonnaies</h3>
+        <p>
+          Les cryptomonnaies sont des monnaies numériques qui utilisent la cryptographie pour sécuriser les transactions et contrôler la création de nouvelles unités. Contrairement aux monnaies traditionnelles, elles fonctionnent sans autorité centrale comme une banque ou un gouvernement.
+        </p>
+        <p>
+          <span class="highlight">Pourquoi les cryptomonnaies sont-elles importantes ?</span>
+        </p>
+        <ul>
+          <li><strong>Décentralisation</strong> - Aucune entité centrale ne contrôle le réseau</li>
+          <li><strong>Transparence</strong> - Toutes les transactions sont enregistrées sur une blockchain publique</li>
+          <li><strong>Sécurité</strong> - Utilisation de cryptographie avancée pour protéger les transactions</li>
+          <li><strong>Accessibilité</strong> - Accessible à quiconque dispose d'une connexion internet</li>
+        </ul>
+      </div>
+
+      <!-- Blockchain Basics -->
+      <div class="tutorial-card" id="section-blockchain">
+        <h3><i class="fas fa-link"></i> Les Bases de la Blockchain</h3>
+        <p>
+          La blockchain est la technologie qui sous-tend les cryptomonnaies. C'est essentiellement un registre numérique distribué et immuable qui enregistre toutes les transactions.
+        </p>
+        <p>
+          Imaginez un grand livre comptable public que tout le monde peut consulter, mais que personne ne peut modifier sans consensus. Chaque "bloc" contient un ensemble de transactions, et ces blocs sont liés entre eux de manière chronologique, formant une "chaîne".
+        </p>
+        <p>
+          <span class="highlight">Caractéristiques clés de la blockchain :</span>
+        </p>
+        <ul>
+          <li><strong>Immuabilité</strong> - Une fois les données enregistrées, elles ne peuvent pas être modifiées</li>
+          <li><strong>Distribution</strong> - Le registre est stocké sur des milliers d'ordinateurs dans le monde</li>
+          <li><strong>Consensus</strong> - Les participants du réseau doivent s'accorder sur la validité des transactions</li>
+        </ul>
+      </div>
+
+      <!-- Wallets -->
+      <div class="tutorial-card" id="section-wallets">
+        <h3><i class="fas fa-wallet"></i> Les Portefeuilles Crypto (Wallets)</h3>
+        <p>
+          Un portefeuille crypto est un outil qui vous permet de stocker, d'envoyer et de recevoir des cryptomonnaies. Contrairement aux portefeuilles traditionnels, ils ne stockent pas réellement vos cryptos - ils stockent les clés privées qui vous donnent accès à vos actifs sur la blockchain.
+        </p>
+        <p>
+          <span class="highlight">Types de portefeuilles :</span>
+        </p>
+        <div class="tutorial-steps">
+          <div class="tutorial-step">
+            <h4>Portefeuilles en ligne (Hot Wallets)</h4>
+            <p>Connectés à internet, faciles à utiliser mais moins sécurisés.</p>
+            <p>Exemples : MetaMask, Trust Wallet, Coinbase Wallet</p>
+          </div>
+          <div class="tutorial-step">
+            <h4>Portefeuilles matériels (Cold Wallets)</h4>
+            <p>Appareils physiques non connectés à internet, offrant une sécurité maximale.</p>
+            <p>Exemples : Ledger, Trezor</p>
+          </div>
+          <div class="tutorial-step">
+            <h4>Portefeuilles papier</h4>
+            <p>Clés privées imprimées sur papier, complètement hors ligne.</p>
+          </div>
+        </div>
+        <p>
+          <span class="warning">IMPORTANT : Ne partagez JAMAIS votre phrase de récupération (seed phrase) ou votre clé privée avec qui que ce soit !</span>
+        </p>
+      </div>
+
+      <!-- Exchanges -->
+      <div class="tutorial-card" id="section-exchanges">
+        <h3><i class="fas fa-exchange-alt"></i> Les Plateformes d'Échange</h3>
+        <p>
+          Les plateformes d'échange (exchanges) sont des marchés en ligne où vous pouvez acheter, vendre et échanger des cryptomonnaies.
+        </p>
+        <p>
+          <span class="highlight">Types d'échanges :</span>
+        </p>
+        <div class="tutorial-steps">
+          <div class="tutorial-step">
+            <h4>Échanges centralisés (CEX)</h4>
+            <p>Gérés par des entreprises, faciles à utiliser mais nécessitent une vérification d'identité.</p>
+            <p>Exemples : Binance, Coinbase, Kraken</p>
+          </div>
+          <div class="tutorial-step">
+            <h4>Échanges décentralisés (DEX)</h4>
+            <p>Fonctionnent sans intermédiaire, offrent plus d'anonymat mais peuvent être plus complexes.</p>
+            <p>Exemples : Uniswap, PancakeSwap, SushiSwap</p>
+          </div>
+        </div>
+        <p>
+          <span class="warning">Conseils de sécurité :</span>
+        </p>
+        <ul>
+          <li>Utilisez l'authentification à deux facteurs (2FA)</li>
+          <li>Ne laissez pas de grandes quantités de crypto sur les échanges</li>
+          <li>Recherchez bien la plateforme avant de l'utiliser</li>
+        </ul>
+      </div>
+
+      <!-- How to Buy -->
+      <div class="tutorial-card" id="section-buying">
+        <h3><i class="fas fa-shopping-cart"></i> Comment Acheter des Cryptomonnaies</h3>
+        <p>
+          Voici un guide étape par étape pour acheter votre première cryptomonnaie :
+        </p>
+        <div class="tutorial-steps">
+          <div class="tutorial-step">
+            <h4>Choisir une plateforme d'échange</h4>
+            <p>Sélectionnez une plateforme réputée comme Binance, Coinbase ou Kraken.</p>
+          </div>
+          <div class="tutorial-step">
+            <h4>Créer et vérifier votre compte</h4>
+            <p>Inscrivez-vous et complétez le processus de vérification d'identité (KYC).</p>
+          </div>
+          <div class="tutorial-step">
+            <h4>Déposer des fonds</h4>
+            <p>Ajoutez de l'argent via carte bancaire, virement ou autres méthodes disponibles.</p>
+          </div>
+          <div class="tutorial-step">
+            <h4>Acheter votre cryptomonnaie</h4>
+            <p>Naviguez vers le marché, sélectionnez la crypto souhaitée et effectuez votre achat.</p>
+          </div>
+          <div class="tutorial-step">
+            <h4>Sécuriser vos actifs</h4>
+            <p>Transférez vos cryptos vers un portefeuille personnel pour plus de sécurité.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- DeFi -->
+      <div class="tutorial-card" id="section-defi">
+        <h3><i class="fas fa-coins"></i> La Finance Décentralisée (DeFi)</h3>
+        <p>
+          La DeFi représente un écosystème d'applications financières construites sur des blockchains. Elle vise à recréer et améliorer les services financiers traditionnels sans intermédiaires.
+        </p>
+        <p>
+          <span class="highlight">Services DeFi populaires :</span>
+        </p>
+        <ul>
+          <li><strong>Prêts et emprunts</strong> - Prêtez vos cryptos pour gagner des intérêts ou empruntez en utilisant vos cryptos comme garantie</li>
+          <li><strong>Staking</strong> - Verrouillez vos tokens pour soutenir le réseau et gagner des récompenses</li>
+          <li><strong>Yield Farming</strong> - Fournissez de la liquidité aux protocoles pour gagner des récompenses</li>
+          <li><strong>DEX</strong> - Échangez des tokens sans intermédiaire</li>
+        </ul>
+        <p>
+          <span class="warning">La DeFi offre d'excellentes opportunités mais comporte des risques. Commencez avec de petits montants et apprenez progressivement.</span>
+        </p>
+      </div>
+
+      <!-- Memecoins -->
+      <div class="tutorial-card" id="section-memecoins">
+        <h3><i class="fas fa-laugh"></i> Les Memecoins</h3>
+        <p>
+          Les memecoins sont des cryptomonnaies inspirées par des mèmes internet ou créées comme une blague. Bien que certaines aient acquis une valeur significative, elles sont généralement considérées comme des investissements à haut risque.
+        </p>
+        <p>
+          <span class="highlight">Caractéristiques des memecoins :</span>
+        </p>
+        <ul>
+          <li>Souvent basées sur des mèmes populaires ou des thèmes humoristiques</li>
+          <li>Communautés très actives et engagées</li>
+          <li>Volatilité extrême des prix</li>
+          <li>Généralement peu ou pas d'utilité technique</li>
+        </ul>
+        <p>
+          <span class="success">LFIST est un memecoin innovant qui va au-delà du simple mème en offrant un écosystème complet avec des jeux, des fonctionnalités DeFi et une communauté dynamique.</span>
+        </p>
+      </div>
+
+      <!-- Security -->
+      <div class="tutorial-card" id="section-security">
+        <h3><i class="fas fa-shield-alt"></i> Sécurité et Bonnes Pratiques</h3>
+        <p>
+          La sécurité est primordiale dans le monde des cryptomonnaies. Voici quelques conseils essentiels :
+        </p>
+        <div class="tutorial-steps">
+          <div class="tutorial-step">
+            <h4>Protégez vos clés privées</h4>
+            <p>Ne les partagez jamais et conservez-les en lieu sûr, idéalement hors ligne.</p>
+          </div>
+          <div class="tutorial-step">
+            <h4>Utilisez l'authentification à deux facteurs (2FA)</h4>
+            <p>Activez-la sur tous vos comptes crypto pour une couche de sécurité supplémentaire.</p>
+          </div>
+          <div class="tutorial-step">
+            <h4>Méfiez-vous des arnaques</h4>
+            <p>Ne cliquez pas sur des liens suspects et ignorez les offres trop belles pour être vraies.</p>
+          </div>
+          <div class="tutorial-step">
+            <h4>Diversifiez vos investissements</h4>
+            <p>Ne mettez pas tous vos œufs dans le même panier crypto.</p>
+          </div>
+          <div class="tutorial-step">
+            <h4>Faites vos propres recherches (DYOR)</h4>
+            <p>Analysez toujours un projet avant d'investir.</p>
+          </div>
+        </div>
+        <p>
+          <span class="warning">N'investissez jamais plus que ce que vous pouvez vous permettre de perdre !</span>
+        </p>
+      </div>
+
+      <!-- LFIST -->
+      <div class="tutorial-card" id="section-lfist">
+        <h3><i class="fas fa-fist-raised"></i> Rejoindre l'Écosystème LFIST</h3>
+        <p>
+          Maintenant que vous comprenez les bases, voici comment rejoindre la révolution LFIST :
+        </p>
+        <div class="tutorial-steps">
+          <div class="tutorial-step">
+            <h4>Créez un portefeuille compatible BSC</h4>
+            <p>MetaMask ou Trust Wallet sont d'excellents choix. Configurez-les pour le réseau Binance Smart Chain.</p>
+          </div>
+          <div class="tutorial-step">
+            <h4>Achetez des BNB</h4>
+            <p>Vous aurez besoin de BNB pour échanger contre LFIST et payer les frais de transaction.</p>
+          </div>
+          <div class="tutorial-step">
+            <h4>Connectez votre portefeuille à PancakeSwap</h4>
+            <p>Rendez-vous sur PancakeSwap et connectez votre portefeuille.</p>
+          </div>
+          <div class="tutorial-step">
+            <h4>Échangez BNB contre LFIST</h4>
+            <p>Utilisez l'adresse du contrat LFIST : 0xc0679bF1fda759B7CfC44691b422405Fae84253f</p>
+          </div>
+          <div class="tutorial-step">
+            <h4>Explorez l'écosystème LFIST</h4>
+            <p>Jouez à nos jeux, participez au staking, créez des mèmes et rejoignez notre communauté!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="tutorial-cta">
+        <h2>Prêt à Rejoindre la Révolution LFIST?</h2>
+        <div class="hero-buttons">
+          <a href="https://pancakeswap.finance/swap?outputCurrency=0xc0679bF1fda759B7CfC44691b422405Fae84253f" 
+             target="_blank" class="btn btn-primary pulse">
+            <i class="fas fa-rocket"></i> ACHETER LFIST
+          </a>
+          <a href="index.html" class="btn btn-secondary">
+            <i class="fas fa-home"></i> RETOUR À L'ACCUEIL
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-grid">
+        <!-- LFIST Info -->
+        <div class="footer-section">
+          <h3>LFIST</h3>
+          <p>
+            Le memecoin viral qui révolutionne le gaming crypto avec des jeux innovants et une communauté engagée.
+          </p>
+          <div class="social-links">
+            <a href="https://t.me/lfistcoin" target="_blank">
+              <i class="fab fa-telegram"></i>
+            </a>
+            <a href="https://twitter.com/lfistcoin" target="_blank">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://discord.gg/lfist" target="_blank">
+              <i class="fab fa-discord"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-section">
+          <h3>Liens Rapides</h3>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="games.html">Jeux</a></li>
+            <li><a href="memes.html">Memes</a></li>
+            <li><a href="leaderboard.html">Classement</a></li>
+            <li><a href="defi.html">DeFi</a></li>
+            <li><a href="whitepaper.html">White Paper</a></li>
+          </ul>
+        </div>
+
+        <!-- Tutorial Links -->
+        <div class="footer-section">
+          <h3>Sections du Guide</h3>
+          <ul>
+            <li><a href="#section-intro">Introduction</a></li>
+            <li><a href="#section-blockchain">Blockchain</a></li>
+            <li><a href="#section-wallets">Portefeuilles</a></li>
+            <li><a href="#section-exchanges">Plateformes d'Échange</a></li>
+            <li><a href="#section-defi">DeFi</a></li>
+            <li><a href="#section-security">Sécurité</a></li>
+          </ul>
+        </div>
+
+        <!-- Stats -->
+        <div class="footer-section">
+          <h3>Statistiques</h3>
+          <div class="footer-stats">
+            <div><i class="fas fa-eye"></i> <span id="footer-visits">Loading...</span> Visites</div>
+            <div><i class="fas fa-gamepad"></i> <span id="footer-games-played">50,000+</span> Parties Jouées</div>
+            <div><i class="fas fa-users"></i> <span id="footer-active-players">2,500+</span> Joueurs Actifs</div>
+            <div><i class="fas fa-user-check"></i> <span id="footer-holders">10,000+</span> Holders</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Copyright -->
+      <div class="footer-bottom">
+        <p>
+          © 2024 LFIST - Tous droits réservés
+        </p>
+        <p>
+          LFIST est un projet crypto expérimental. Investissez de manière responsable.
+        </p>
+        <div>
+          Fait avec <i class="fas fa-heart"></i> pour la communauté crypto
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/api.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialiser la barre de progression
+      initProgressBar();
+      
+      // Initialiser la navigation par points
+      initNavDots();
+      
+      // Cacher l'écran de chargement après 1.5 secondes
+      setTimeout(hideLoadingScreen, 1500);
+    });
+    
+    // Cacher l'écran de chargement
+    function hideLoadingScreen() {
+      const loadingScreen = document.getElementById('loading-screen');
+      if (loadingScreen) {
+        loadingScreen.style.opacity = '0';
+        setTimeout(() => {
+          loadingScreen.style.display = 'none';
+        }, 500);
+      }
+    }
+    
+    // Initialiser la barre de progression
+    function initProgressBar() {
+      const progressBar = document.getElementById('progress-bar');
+      
+      window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.body.offsetHeight;
+        const winHeight = window.innerHeight;
+        const scrollPercent = scrollTop / (docHeight - winHeight);
+        const scrollPercentRounded = Math.round(scrollPercent * 100);
+        
+        progressBar.style.width = scrollPercentRounded + '%';
+        
+        // Mettre à jour les points de navigation
+        updateNavDots(scrollPercentRounded);
+      });
+    }
+    
+    // Initialiser les points de navigation
+    function initNavDots() {
+      const navContainer = document.getElementById('tutorial-nav');
+      const sections = document.querySelectorAll('.tutorial-card');
+      
+      sections.forEach((section, index) => {
+        const dot = document.createElement('div');
+        dot.className = 'tutorial-nav-item';
+        dot.setAttribute('data-index', index);
+        dot.setAttribute('data-target', section.id);
+        
+        dot.addEventListener('click', () => {
+          section.scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        navContainer.appendChild(dot);
+      });
+    }
+    
+    // Mettre à jour les points de navigation
+    function updateNavDots(scrollPercent) {
+      const sections = document.querySelectorAll('.tutorial-card');
+      const dots = document.querySelectorAll('.tutorial-nav-item');
+      
+      sections.forEach((section, index) => {
+        const rect = section.getBoundingClientRect();
+        const isVisible = rect.top < window.innerHeight / 2 && rect.bottom > window.innerHeight / 2;
+        
+        if (isVisible) {
+          dots.forEach(dot => dot.classList.remove('active'));
+          dots[index].classList.add('active');
+        }
+      });
+    }
+  </script>
+  
+  <!-- PWA Support -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+</body>
+</html>
