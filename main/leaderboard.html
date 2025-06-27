@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LFIST Leaderboard - Classement des Meilleurs Joueurs</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <meta name="description" content="Découvrez les meilleurs joueurs LFIST et leur classement. Jouez et gagnez des récompenses!" />
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-animation">
+      <div class="lfist-loader">🏆</div>
+      <div class="loading-text">CHARGEMENT DU CLASSEMENT...</div>
+      <div class="loading-bar">
+        <div class="loading-progress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Price Ticker -->
+  <div id="price-ticker" class="price-ticker">
+    <div class="ticker-content">
+      <span class="ticker-item">
+        <i class="fas fa-chart-line"></i>
+        LFIST: <span id="lfist-price">$0.000000</span>
+        <span id="price-change" class="price-change">+0.00%</span>
+      </span>
+      <span class="ticker-item">
+        <i class="fas fa-users"></i>
+        Holders: <span id="holder-count">0</span>
+      </span>
+      <span class="ticker-item">
+        <i class="fas fa-trophy"></i>
+        Leader du jour: <span id="daily-leader">Chargement...</span>
+      </span>
+    </div>
+  </div>
+
+  <header>
+    <div class="logo">
+      <img src="images/logoLFIST.png" alt="LFIST" class="logo-img" />
+      LFIST
+    </div>
+    <nav class="nav-menu">
+      <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
+      <a href="games.html"><i class="fas fa-gamepad"></i> Jeux</a>
+      <a href="memes.html"><i class="fas fa-images"></i> Memes</a>
+      <a href="leaderboard.html" class="active"><i class="fas fa-trophy"></i> Classement</a>
+      <a href="defi.html"><i class="fas fa-coins"></i> DeFi</a>
+      <a href="whitepaper.html" target="_blank" class="whitepaper-link"><i class="fas fa-file-alt"></i> White Paper</a>
+    </nav>
+    <div class="header-controls">
+      <button id="connectWallet" class="wallet-btn">
+        <i class="fas fa-wallet"></i> Connect Wallet
+      </button>
+      <button id="languageButton" class="language-btn">🇫🇷 Français</button>
+      <div id="burger" class="burger">☰</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Leaderboard Hero -->
+    <section class="leaderboard-hero">
+      <div class="leaderboard-hero-content">
+        <h1>CLASSEMENT LFIST</h1>
+        <p>Les meilleurs joueurs et holders de la communauté LFIST</p>
+        
+        <div class="leaderboard-stats">
+          <div class="leaderboard-stat">
+            <div class="stat-icon"><i class="fas fa-gamepad"></i></div>
+            <div class="stat-value" id="total-games">0</div>
+            <div class="stat-label">Parties Jouées</div>
+          </div>
+          <div class="leaderboard-stat">
+            <div class="stat-icon"><i class="fas fa-users"></i></div>
+            <div class="stat-value" id="total-players">0</div>
+            <div class="stat-label">Joueurs Classés</div>
+          </div>
+          <div class="leaderboard-stat">
+            <div class="stat-icon"><i class="fas fa-coins"></i></div>
+            <div class="stat-value">250K+</div>
+            <div class="stat-label">$LFIST Distribués</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Leaderboard Tabs -->
+    <section id="leaderboard-section" class="leaderboard-section">
+      <div class="leaderboard-tabs">
+        <button class="tab-btn active" onclick="switchTab('holders')">
+          <i class="fas fa-wallet"></i> Top Holders
+        </button>
+        <button class="tab-btn" onclick="switchTab('gamers')">
+          <i class="fas fa-gamepad"></i> Top Gamers
+        </button>
+        <button class="tab-btn" onclick="switchTab('memers')">
+          <i class="fas fa-laugh"></i> Meme Masters
+        </button>
+      </div>
+
+      <div class="leaderboard-content">
+        <!-- Holders Leaderboard -->
+        <div id="holders-leaderboard" class="leaderboard-tab active">
+          <div class="leaderboard-filters">
+            <div class="filter-group">
+              <label for="holders-period">Période:</label>
+              <select id="holders-period" onchange="filterLeaderboard('holders', this.value)">
+                <option value="all-time">Tout Temps</option>
+                <option value="monthly">Ce Mois</option>
+                <option value="weekly">Cette Semaine</option>
+                <option value="daily">Aujourd'hui</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="leaderboard-table-container">
+            <table class="leaderboard-table">
+              <thead>
+                <tr>
+                  <th>Rang</th>
+                  <th>Holder</th>
+                  <th>$LFIST Détenus</th>
+                  <th>Valeur (USD)</th>
+                  <th>Depuis</th>
+                </tr>
+              </thead>
+              <tbody id="holders-table-body">
+                <!-- Sera rempli par JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <!-- Gamers Leaderboard -->
+        <div id="gamers-leaderboard" class="leaderboard-tab">
+          <div class="leaderboard-filters">
+            <div class="filter-group">
+              <label for="gamers-period">Période:</label>
+              <select id="gamers-period" onchange="filterLeaderboard('gamers', this.value)">
+                <option value="all-time">Tout Temps</option>
+                <option value="monthly">Ce Mois</option>
+                <option value="weekly">Cette Semaine</option>
+                <option value="daily">Aujourd'hui</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="gamers-game">Jeu:</label>
+              <select id="gamers-game" onchange="filterLeaderboard('gamers', document.getElementById('gamers-period').value, this.value)">
+                <option value="all">Tous les Jeux</option>
+                <option value="fist-destroyer">Fist Destroyer</option>
+                <option value="fist-detector">Fist Detector</option>
+                <option value="meme-battle">Meme Battle</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="leaderboard-table-container">
+            <table class="leaderboard-table">
+              <thead>
+                <tr>
+                  <th>Rang</th>
+                  <th>Joueur</th>
+                  <th>Score</th>
+                  <th>Jeu</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="gamers-table-body">
+                <!-- Sera rempli par JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <!-- Memers Leaderboard -->
+        <div id="memers-leaderboard" class="leaderboard-tab">
+          <div class="leaderboard-filters">
+            <div class="filter-group">
+              <label for="memers-period">Période:</label>
+              <select id="memers-period" onchange="filterLeaderboard('memers', this.value)">
+                <option value="all-time">Tout Temps</option>
+                <option value="monthly">Ce Mois</option>
+                <option value="weekly">Cette Semaine</option>
+                <option value="daily">Aujourd'hui</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="leaderboard-table-container">
+            <table class="leaderboard-table">
+              <thead>
+                <tr>
+                  <th>Rang</th>
+                  <th>Créateur</th>
+                  <th>Meme</th>
+                  <th>Likes</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="memers-table-body">
+                <!-- Sera rempli par JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Your Position -->
+    <section id="your-position" class="your-position-section">
+      <h2 class="section-title">VOTRE POSITION</h2>
+      <p class="section-subtitle">Connectez-vous pour voir votre classement</p>
+      
+      <div id="position-not-logged" class="position-card">
+        <div class="position-icon"><i class="fas fa-user-lock"></i></div>
+        <div class="position-message">
+          <h3>Connectez-vous pour voir votre position</h3>
+          <p>Créez un compte ou connectez-vous pour suivre vos performances et apparaître dans le classement.</p>
+        </div>
+        <button id="login-btn" class="btn btn-primary">
+          <i class="fas fa-sign-in-alt"></i> Se Connecter
+        </button>
+      </div>
+      
+      <div id="position-logged" class="position-card" style="display: none;">
+        <div class="position-header">
+          <div class="position-user">
+            <div class="position-avatar"><i class="fas fa-user"></i></div>
+            <div class="position-name">
+              <h3 id="position-username">Username</h3>
+              <span id="position-level">Niveau 1</span>
+            </div>
+          </div>
+          <div class="position-rank">
+            <div class="rank-number" id="position-rank">-</div>
+            <div class="rank-label">Classement</div>
+          </div>
+        </div>
+        
+        <div class="position-stats">
+          <div class="position-stat">
+            <div class="stat-value" id="position-best-score">0</div>
+            <div class="stat-label">Meilleur Score</div>
+          </div>
+          <div class="position-stat">
+            <div class="stat-value" id="position-total-games">0</div>
+            <div class="stat-label">Parties Jouées</div>
+          </div>
+          <div class="position-stat">
+            <div class="stat-value" id="position-total-score">0</div>
+            <div class="stat-label">Score Total</div>
+          </div>
+        </div>
+        
+        <div class="position-actions">
+          <a href="games.html" class="btn btn-secondary">
+            <i class="fas fa-gamepad"></i> Jouer Maintenant
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Monthly Rewards -->
+    <section id="monthly-rewards" class="rewards-section">
+      <h2 class="section-title">RÉCOMPENSES MENSUELLES</h2>
+      <p class="section-subtitle">Les meilleurs joueurs du mois reçoivent des récompenses exclusives</p>
+      
+      <div class="rewards-grid">
+        <div class="reward-card top">
+          <div class="reward-medal"><i class="fas fa-trophy"></i></div>
+          <div class="reward-position">1</div>
+          <div class="reward-info">
+            <h3>1ère Place</h3>
+            <div class="reward-prize">
+              <div class="prize-amount">10,000 $LFIST</div>
+              <div class="prize-extra">+ NFT Exclusif</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="reward-card">
+          <div class="reward-medal"><i class="fas fa-medal"></i></div>
+          <div class="reward-position">2</div>
+          <div class="reward-info">
+            <h3>2ème Place</h3>
+            <div class="reward-prize">
+              <div class="prize-amount">5,000 $LFIST</div>
+              <div class="prize-extra">+ Badge Spécial</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="reward-card">
+          <div class="reward-medal"><i class="fas fa-award"></i></div>
+          <div class="reward-position">3</div>
+          <div class="reward-info">
+            <h3>3ème Place</h3>
+            <div class="reward-prize">
+              <div class="prize-amount">2,500 $LFIST</div>
+              <div class="prize-extra">+ Badge Spécial</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="reward-card">
+          <div class="reward-position">4-10</div>
+          <div class="reward-info">
+            <h3>4ème à 10ème</h3>
+            <div class="reward-prize">
+              <div class="prize-amount">1,000 $LFIST</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="reward-card">
+          <div class="reward-position">11-20</div>
+          <div class="reward-info">
+            <h3>11ème à 20ème</h3>
+            <div class="reward-prize">
+              <div class="prize-amount">500 $LFIST</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="rewards-note">
+        <p>Les récompenses sont distribuées automatiquement le 1er de chaque mois. Jouez régulièrement pour augmenter vos chances!</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-grid">
+        <!-- LFIST Info -->
+        <div class="footer-section">
+          <h3>LFIST</h3>
+          <p>
+            Le memecoin viral qui révolutionne le gaming crypto avec des jeux innovants et une communauté engagée.
+          </p>
+          <div class="social-links">
+            <a href="https://t.me/lfistcoin" target="_blank">
+              <i class="fab fa-telegram"></i>
+            </a>
+            <a href="https://twitter.com/lfistcoin" target="_blank">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://discord.gg/lfist" target="_blank">
+              <i class="fab fa-discord"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-section">
+          <h3>Liens Rapides</h3>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="games.html">Jeux</a></li>
+            <li><a href="memes.html">Memes</a></li>
+            <li><a href="leaderboard.html">Classement</a></li>
+            <li><a href="defi.html">DeFi</a></li>
+            <li><a href="whitepaper.html">White Paper</a></li>
+          </ul>
+        </div>
+
+        <!-- Games -->
+        <div class="footer-section">
+          <h3>Nos Jeux</h3>
+          <ul>
+            <li><a href="games.html#fist-destroyer">Fist Destroyer</a></li>
+            <li><a href="games.html#fist-detector">Fist Detector</a></li>
+            <li><a href="games.html#meme-battle">Meme Battle</a></li>
+          </ul>
+        </div>
+
+        <!-- Stats -->
+        <div class="footer-section">
+          <h3>Statistiques</h3>
+          <div class="footer-stats">
+            <div><i class="fas fa-eye"></i> <span id="footer-visits">Loading...</span> Visites</div>
+            <div><i class="fas fa-gamepad"></i> <span id="footer-games-played">50,000+</span> Parties Jouées</div>
+            <div><i class="fas fa-users"></i> <span id="footer-active-players">2,500+</span> Joueurs Actifs</div>
+            <div><i class="fas fa-user-check"></i> <span id="footer-holders">10,000+</span> Holders</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Copyright -->
+      <div class="footer-bottom">
+        <p>
+          © 2024 LFIST - Tous droits réservés
+        </p>
+        <p>
+          LFIST est un projet crypto expérimental. Investissez de manière responsable.
+        </p>
+        <div>
+          Fait avec <i class="fas fa-heart"></i> pour la communauté crypto
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/api.js"></script>
+  <script>
+    // Données de démonstration pour le classement
+    const mockHolders = [
+      { rank: 1, name: 'Whale_Master', amount: '25,000,000', value: '$125,000', since: '6 mois' },
+      { rank: 2, name: 'Crypto_King', amount: '18,500,000', value: '$92,500', since: '5 mois' },
+      { rank: 3, name: 'LFIST_Legend', amount: '12,750,000', value: '$63,750', since: '4 mois' },
+      { rank: 4, name: 'Diamond_Hands', amount: '10,200,000', value: '$51,000', since: '6 mois' },
+      { rank: 5, name: 'Hodler123', amount: '8,500,000', value: '$42,500', since: '3 mois' },
+      { rank: 6, name: 'MoonShot', amount: '7,200,000', value: '$36,000', since: '2 mois' },
+      { rank: 7, name: 'Crypto_Bull', amount: '6,800,000', value: '$34,000', since: '5 mois' },
+      { rank: 8, name: 'LFIST_Believer', amount: '5,500,000', value: '$27,500', since: '4 mois' },
+      { rank: 9, name: 'TokenMaster', amount: '4,900,000', value: '$24,500', since: '3 mois' },
+      { rank: 10, name: 'CryptoWhale', amount: '4,200,000', value: '$21,000', since: '2 mois' }
+    ];
+    
+    const mockGamers = [
+      { rank: 1, name: 'Crypto_King', score: '1,250,000', game: 'Fist Destroyer', date: '2024-06-15' },
+      { rank: 2, name: 'LFIST_Master', score: '980,500', game: 'Fist Destroyer', date: '2024-06-18' },
+      { rank: 3, name: 'Diamond_Hands', score: '875,200', game: 'Meme Battle', date: '2024-06-20' },
+      { rank: 4, name: 'Hodler123', score: '720,100', game: 'Fist Detector', date: '2024-06-17' },
+      { rank: 5, name: 'MoonShot', score: '650,800', game: 'Fist Destroyer', date: '2024-06-19' },
+      { rank: 6, name: 'GameMaster', score: '620,500', game: 'Fist Detector', date: '2024-06-16' },
+      { rank: 7, name: 'CryptoNinja', score: '580,200', game: 'Meme Battle', date: '2024-06-18' },
+      { rank: 8, name: 'TokenWarrior', score: '550,100', game: 'Fist Destroyer', date: '2024-06-20' },
+      { rank: 9, name: 'BlockchainPro', score: '520,800', game: 'Fist Detector', date: '2024-06-19' },
+      { rank: 10, name: 'CoinHunter', score: '490,500', game: 'Meme Battle', date: '2024-06-17' }
+    ];
+    
+    const mockMemers = [
+      { rank: 1, name: 'MemeLord', meme: 'LFIST to the Moon', likes: '2,500', date: '2024-06-15' },
+      { rank: 2, name: 'CryptoJoker', meme: 'When LFIST Pumps', likes: '1,800', date: '2024-06-18' },
+      { rank: 3, name: 'MemeKing', meme: 'Diamond Hands LFIST', likes: '1,500', date: '2024-06-20' },
+      { rank: 4, name: 'FunnyToken', meme: 'LFIST vs Other Coins', likes: '1,200', date: '2024-06-17' },
+      { rank: 5, name: 'LaughMaster', meme: 'LFIST Holders Be Like', likes: '950', date: '2024-06-19' },
+      { rank: 6, name: 'JokeCrypto', meme: 'When You Buy LFIST', likes: '820', date: '2024-06-16' },
+      { rank: 7, name: 'MemeCreator', meme: 'LFIST Community', likes: '780', date: '2024-06-18' },
+      { rank: 8, name: 'FunnyMoney', meme: 'LFIST Price Action', likes: '650', date: '2024-06-20' },
+      { rank: 9, name: 'TokenJester', meme: 'LFIST Gaming', likes: '580', date: '2024-06-19' },
+      { rank: 10, name: 'CryptoComic', meme: 'LFIST vs Bitcoin', likes: '520', date: '2024-06-17' }
+    ];
+    
+    // Fonction pour changer d'onglet
+    function switchTab(tab) {
+      // Mettre à jour les boutons d'onglet
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      document.querySelector(`.tab-btn:nth-child(${
+        tab === 'holders' ? 1 : 
+        tab === 'gamers' ? 2 : 
+        tab === 'memers' ? 3 : 1
+      })`).classList.add('active');
+      
+      // Mettre à jour les onglets de contenu
+      document.querySelectorAll('.leaderboard-tab').forEach(content => {
+        content.classList.remove('active');
+      });
+      document.getElementById(`${tab}-leaderboard`).classList.add('active');
+      
+      // Charger les données
+      loadLeaderboardData(tab);
+    }
+    
+    // Fonction pour filtrer le classement
+    function filterLeaderboard(tab, period, game = 'all') {
+      console.log(`Filtering ${tab} leaderboard: period=${period}, game=${game}`);
+      loadLeaderboardData(tab, period, game);
+    }
+    
+    // Fonction pour charger les données du classement
+    function loadLeaderboardData(tab, period = 'all-time', game = 'all') {
+      let data = [];
+      
+      // Sélectionner les données en fonction de l'onglet
+      switch(tab) {
+        case 'holders':
+          data = mockHolders;
+          break;
+        case 'gamers':
+          data = mockGamers;
+          // Filtrer par jeu si nécessaire
+          if (game !== 'all') {
+            data = data.filter(item => item.game.toLowerCase().includes(game.replace('-', ' ')));
+          }
+          break;
+        case 'memers':
+          data = mockMemers;
+          break;
+        default:
+          data = mockHolders;
+      }
+      
+      // Filtrer par période si nécessaire (simulation)
+      if (period !== 'all-time') {
+        // Mélanger un peu les données pour simuler un filtrage
+        data = [...data].sort(() => Math.random() - 0.5);
+      }
+      
+      // Mettre à jour le tableau
+      const tableBody = document.getElementById(`${tab}-table-body`);
+      if (!tableBody) return;
+      
+      tableBody.innerHTML = '';
+      
+      data.forEach(item => {
+        const row = document.createElement('tr');
+        
+        // Ajouter une classe spéciale pour les 3 premiers
+        if (item.rank <= 3) {
+          row.classList.add('top-player');
+        }
+        
+        // Créer les cellules en fonction de l'onglet
+        switch(tab) {
+          case 'holders':
+            row.innerHTML = `
+              <td>${item.rank <= 3 ? `<i class="fas fa-trophy ${item.rank === 1 ? 'gold' : item.rank === 2 ? 'silver' : 'bronze'}"></i>` : item.rank}</td>
+              <td>${item.name}</td>
+              <td>${item.amount}</td>
+              <td>${item.value}</td>
+              <td>${item.since}</td>
+            `;
+            break;
+          case 'gamers':
+            row.innerHTML = `
+              <td>${item.rank <= 3 ? `<i class="fas fa-trophy ${item.rank === 1 ? 'gold' : item.rank === 2 ? 'silver' : 'bronze'}"></i>` : item.rank}</td>
+              <td>${item.name}</td>
+              <td>${item.score}</td>
+              <td>${item.game}</td>
+              <td>${formatDate(item.date)}</td>
+            `;
+            break;
+          case 'memers':
+            row.innerHTML = `
+              <td>${item.rank <= 3 ? `<i class="fas fa-trophy ${item.rank === 1 ? 'gold' : item.rank === 2 ? 'silver' : 'bronze'}"></i>` : item.rank}</td>
+              <td>${item.name}</td>
+              <td>${item.meme}</td>
+              <td>${item.likes}</td>
+              <td>${formatDate(item.date)}</td>
+            `;
+            break;
+        }
+        
+        tableBody.appendChild(row);
+      });
+      
+      // Mettre à jour le nombre total de joueurs
+      document.getElementById('total-players').textContent = Math.floor(500 + Math.random() * 500);
+    }
+    
+    // Fonction pour formater une date
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'numeric', year: 'numeric' });
+    }
+    
+    // Initialisation
+    document.addEventListener('DOMContentLoaded', function() {
+      // Charger les données initiales
+      loadLeaderboardData('holders');
+      
+      // Configurer le bouton de connexion
+      const loginBtn = document.getElementById('login-btn');
+      if (loginBtn) {
+        loginBtn.addEventListener('click', function() {
+          window.auth.showAuthModal();
+        });
+      }
+      
+      // Vérifier si l'utilisateur est connecté
+      setTimeout(checkUserLoggedIn, 1500);
+      
+      // Mettre à jour le nombre total de joueurs
+      document.getElementById('total-players').textContent = Math.floor(500 + Math.random() * 500);
+    });
+    
+    // Vérifier si l'utilisateur est connecté
+    function checkUserLoggedIn() {
+      if (window.auth && window.auth.isLoggedIn()) {
+        // Afficher les informations de l'utilisateur
+        document.getElementById('position-not-logged').style.display = 'none';
+        document.getElementById('position-logged').style.display = 'block';
+        
+        // Récupérer les données de l'utilisateur
+        const currentUser = window.auth.getCurrentUser();
+        const userData = JSON.parse(localStorage.getItem('lfist_users') || '{}')[currentUser];
+        
+        if (userData) {
+          document.getElementById('position-username').textContent = userData.username;
+          document.getElementById('position-level').textContent = `Niveau ${userData.level}`;
+          document.getElementById('position-best-score').textContent = userData.bestScore.toLocaleString();
+          document.getElementById('position-total-games').textContent = userData.totalGames;
+          document.getElementById('position-total-score').textContent = userData.totalScore.toLocaleString();
+          
+          // Simuler un rang
+          const rank = Math.floor(Math.random() * 100) + 1;
+          document.getElementById('position-rank').textContent = rank;
+        }
+      }
+    }
+  </script>
+  
+  <!-- PWA Support -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+</body>
+</html>

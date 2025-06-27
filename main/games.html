@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LFIST Games - Jeux Crypto Viraux</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <meta name="description" content="Jouez aux jeux LFIST, gagnez des récompenses et grimpez dans le classement!" />
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-animation">
+      <div class="lfist-loader">🎮</div>
+      <div class="loading-text">CHARGEMENT DES JEUX...</div>
+      <div class="loading-bar">
+        <div class="loading-progress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Price Ticker -->
+  <div id="price-ticker" class="price-ticker">
+    <div class="ticker-content">
+      <span class="ticker-item">
+        <i class="fas fa-chart-line"></i>
+        LFIST: <span id="lfist-price">$0.000000</span>
+        <span id="price-change" class="price-change">+0.00%</span>
+      </span>
+      <span class="ticker-item">
+        <i class="fas fa-users"></i>
+        Holders: <span id="holder-count">0</span>
+      </span>
+      <span class="ticker-item">
+        <i class="fas fa-trophy"></i>
+        Leader du jour: <span id="daily-leader">Chargement...</span>
+      </span>
+    </div>
+  </div>
+
+  <header>
+    <div class="logo">
+      <img src="images/logoLFIST.png" alt="LFIST" class="logo-img" />
+      LFIST
+    </div>
+    <nav class="nav-menu">
+      <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
+      <a href="games.html" class="active"><i class="fas fa-gamepad"></i> Jeux</a>
+      <a href="memes.html"><i class="fas fa-images"></i> Memes</a>
+      <a href="leaderboard.html"><i class="fas fa-trophy"></i> Classement</a>
+      <a href="defi.html"><i class="fas fa-coins"></i> DeFi</a>
+      <a href="whitepaper.html" target="_blank" class="whitepaper-link"><i class="fas fa-file-alt"></i> White Paper</a>
+    </nav>
+    <div class="header-controls">
+      <button id="connectWallet" class="wallet-btn">
+        <i class="fas fa-wallet"></i> Connect Wallet
+      </button>
+      <button id="languageButton" class="language-btn">🇫🇷 Français</button>
+      <div id="burger" class="burger">☰</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Games Hero Section -->
+    <section class="games-hero">
+      <div class="games-hero-content">
+        <h1>LFIST GAMES HUB</h1>
+        <p>Joue, gagne des $LFIST et grimpe dans le classement!</p>
+        
+        <div class="games-stats">
+          <div class="game-stat">
+            <div class="stat-icon"><i class="fas fa-gamepad"></i></div>
+            <div class="stat-value" id="total-games">0</div>
+            <div class="stat-label">Parties Jouées</div>
+          </div>
+          <div class="game-stat">
+            <div class="stat-icon"><i class="fas fa-users"></i></div>
+            <div class="stat-value" id="active-players">0</div>
+            <div class="stat-label">Joueurs Actifs</div>
+          </div>
+          <div class="game-stat">
+            <div class="stat-icon"><i class="fas fa-coins"></i></div>
+            <div class="stat-value">100K+</div>
+            <div class="stat-label">$LFIST Distribués</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Games Grid -->
+    <section id="games-grid" class="games-section">
+      <h2 class="section-title">NOS JEUX</h2>
+      <p class="section-subtitle">Chaque jeu offre des récompenses et des défis uniques</p>
+      
+      <div class="games-grid">
+        <!-- Fist Destroyer -->
+        <div id="fist-destroyer" class="game-card featured">
+          <div class="game-image">
+            <img src="images/fist-destroyer-preview.png" alt="Fist Destroyer" />
+            <div class="game-badge">VIRAL</div>
+          </div>
+          <div class="game-info">
+            <h3>Fist Destroyer</h3>
+            <p>Détruis les memecoins rivaux et gagne des $LFIST! Un jeu d'action rapide où tu dois frapper les mauvais projets et éviter les bons.</p>
+            <div class="game-stats">
+              <span><i class="fas fa-play"></i> 50,000+ parties</span>
+              <span><i class="fas fa-star"></i> 4.9/5</span>
+            </div>
+            <div class="game-details">
+              <div class="detail-item">
+                <span class="detail-label">Difficulté:</span>
+                <span class="detail-value">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                  <i class="far fa-star"></i>
+                </span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Récompenses:</span>
+                <span class="detail-value">
+                  <i class="fas fa-coins"></i>
+                  <i class="fas fa-coins"></i>
+                  <i class="fas fa-coins"></i>
+                  <i class="fas fa-coins"></i>
+                  <i class="far fa-coins"></i>
+                </span>
+              </div>
+            </div>
+            <button class="play-btn" onclick="playGame('fist-destroyer')">
+              <i class="fas fa-play"></i> JOUER MAINTENANT
+            </button>
+          </div>
+        </div>
+
+        <!-- Fist Detector -->
+        <div id="fist-detector" class="game-card">
+          <div class="game-image">
+            <img src="images/fist-detector-preview.png" alt="Fist Detector" />
+            <div class="game-badge">SKILL</div>
+          </div>
+          <div class="game-info">
+            <h3>Fist Detector</h3>
+            <p>Détecte les vrais projets crypto parmi les scams! Mets tes connaissances crypto à l'épreuve et identifie les projets légitimes.</p>
+            <div class="game-stats">
+              <span><i class="fas fa-play"></i> 25,000+ parties</span>
+              <span><i class="fas fa-star"></i> 4.8/5</span>
+            </div>
+            <div class="game-details">
+              <div class="detail-item">
+                <span class="detail-label">Difficulté:</span>
+                <span class="detail-value">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                </span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Récompenses:</span>
+                <span class="detail-value">
+                  <i class="fas fa-coins"></i>
+                  <i class="fas fa-coins"></i>
+                  <i class="fas fa-coins"></i>
+                  <i class="far fa-coins"></i>
+                  <i class="far fa-coins"></i>
+                </span>
+              </div>
+            </div>
+            <button class="play-btn" onclick="playGame('fist-detector')">
+              <i class="fas fa-play"></i> JOUER MAINTENANT
+            </button>
+          </div>
+        </div>
+
+        <!-- Meme Battle -->
+        <div id="meme-battle" class="game-card">
+          <div class="game-image">
+            <img src="images/meme-battle-preview.png" alt="Meme Battle" />
+            <div class="game-badge">MEME</div>
+          </div>
+          <div class="game-info">
+            <h3>Meme Battle</h3>
+            <p>Bataille de memes! Crée le meme le plus viral et gagne des votes de la communauté pour remporter des récompenses.</p>
+            <div class="game-stats">
+              <span><i class="fas fa-play"></i> 15,000+ parties</span>
+              <span><i class="fas fa-star"></i> 4.7/5</span>
+            </div>
+            <div class="game-details">
+              <div class="detail-item">
+                <span class="detail-label">Difficulté:</span>
+                <span class="detail-value">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                  <i class="far fa-star"></i>
+                  <i class="far fa-star"></i>
+                </span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Récompenses:</span>
+                <span class="detail-value">
+                  <i class="fas fa-coins"></i>
+                  <i class="fas fa-coins"></i>
+                  <i class="fas fa-coins"></i>
+                  <i class="fas fa-coins"></i>
+                  <i class="fas fa-coins"></i>
+                </span>
+              </div>
+            </div>
+            <button class="play-btn" onclick="playGame('meme-battle')">
+              <i class="fas fa-play"></i> JOUER MAINTENANT
+            </button>
+          </div>
+        </div>
+
+        <!-- Coming Soon -->
+        <div class="game-card coming-soon">
+          <div class="game-image">
+            <div class="coming-soon-overlay">
+              <i class="fas fa-clock"></i>
+              <span>BIENTÔT DISPONIBLE</span>
+            </div>
+          </div>
+          <div class="game-info">
+            <h3>LFIST Runner</h3>
+            <p>Course infinie dans l'univers crypto! Évite les obstacles et collecte des tokens pour augmenter ton score.</p>
+            <div class="game-stats">
+              <span><i class="fas fa-calendar"></i> Lancement prévu: Q3 2024</span>
+            </div>
+            <div class="game-details">
+              <div class="detail-item">
+                <span class="detail-label">Difficulté:</span>
+                <span class="detail-value">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="far fa-star"></i>
+                  <i class="far fa-star"></i>
+                </span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Récompenses:</span>
+                <span class="detail-value">
+                  <i class="fas fa-coins"></i>
+                  <i class="fas fa-coins"></i>
+                  <i class="fas fa-coins"></i>
+                  <i class="fas fa-coins"></i>
+                  <i class="far fa-coins"></i>
+                </span>
+              </div>
+            </div>
+            <button class="play-btn disabled">
+              <i class="fas fa-bell"></i> ME NOTIFIER
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Daily Challenges -->
+    <section id="daily-challenges" class="challenges-section">
+      <h2 class="section-title">DÉFIS QUOTIDIENS</h2>
+      <p class="section-subtitle">Complète des défis pour gagner des récompenses supplémentaires</p>
+      
+      <div class="challenges-grid">
+        <div class="challenge-card">
+          <div class="challenge-icon"><i class="fas fa-bullseye"></i></div>
+          <div class="challenge-info">
+            <h4>Score Master</h4>
+            <p>Atteins 50,000 points dans Fist Destroyer</p>
+            <div class="challenge-reward">Récompense: 1000 $LFIST</div>
+          </div>
+          <div class="challenge-progress">
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 65%"></div>
+            </div>
+            <span>65%</span>
+          </div>
+        </div>
+
+        <div class="challenge-card">
+          <div class="challenge-icon"><i class="fas fa-search"></i></div>
+          <div class="challenge-info">
+            <h4>Detector Pro</h4>
+            <p>Identifie 20 scams dans Fist Detector</p>
+            <div class="challenge-reward">Récompense: 500 $LFIST</div>
+          </div>
+          <div class="challenge-progress">
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 30%"></div>
+            </div>
+            <span>30%</span>
+          </div>
+        </div>
+
+        <div class="challenge-card">
+          <div class="challenge-icon"><i class="fas fa-laugh"></i></div>
+          <div class="challenge-info">
+            <h4>Meme Viral</h4>
+            <p>Crée un meme qui reçoit 100+ likes</p>
+            <div class="challenge-reward">Récompense: 2000 $LFIST</div>
+          </div>
+          <div class="challenge-progress">
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 0%"></div>
+            </div>
+            <span>0%</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Top Players -->
+    <section id="top-players" class="top-players-section">
+      <h2 class="section-title">TOP JOUEURS</h2>
+      <p class="section-subtitle">Les meilleurs joueurs de la semaine</p>
+      
+      <div class="players-table-container">
+        <table class="players-table">
+          <thead>
+            <tr>
+              <th>Rang</th>
+              <th>Joueur</th>
+              <th>Score</th>
+              <th>Jeu</th>
+              <th>Récompense</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="top-player">
+              <td><i class="fas fa-trophy gold"></i></td>
+              <td>Crypto_King</td>
+              <td>1,250,000</td>
+              <td>Fist Destroyer</td>
+              <td>5,000 $LFIST</td>
+            </tr>
+            <tr class="top-player">
+              <td><i class="fas fa-trophy silver"></i></td>
+              <td>LFIST_Master</td>
+              <td>980,500</td>
+              <td>Fist Destroyer</td>
+              <td>3,000 $LFIST</td>
+            </tr>
+            <tr class="top-player">
+              <td><i class="fas fa-trophy bronze"></i></td>
+              <td>Diamond_Hands</td>
+              <td>875,200</td>
+              <td>Meme Battle</td>
+              <td>1,500 $LFIST</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Hodler123</td>
+              <td>720,100</td>
+              <td>Fist Detector</td>
+              <td>1,000 $LFIST</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>MoonShot</td>
+              <td>650,800</td>
+              <td>Fist Destroyer</td>
+              <td>500 $LFIST</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="section-cta">
+        <a href="leaderboard.html" class="btn btn-secondary">
+          <i class="fas fa-trophy"></i> VOIR LE CLASSEMENT COMPLET
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Game Modal -->
+  <div id="game-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <iframe id="game-frame" src="" width="100%" height="100%"></iframe>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-grid">
+        <!-- LFIST Info -->
+        <div class="footer-section">
+          <h3>LFIST</h3>
+          <p>
+            Le memecoin viral qui révolutionne le gaming crypto avec des jeux innovants et une communauté engagée.
+          </p>
+          <div class="social-links">
+            <a href="https://t.me/lfistcoin" target="_blank">
+              <i class="fab fa-telegram"></i>
+            </a>
+            <a href="https://twitter.com/lfistcoin" target="_blank">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://discord.gg/lfist" target="_blank">
+              <i class="fab fa-discord"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-section">
+          <h3>Liens Rapides</h3>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="games.html">Jeux</a></li>
+            <li><a href="memes.html">Memes</a></li>
+            <li><a href="leaderboard.html">Classement</a></li>
+            <li><a href="defi.html">DeFi</a></li>
+            <li><a href="whitepaper.html">White Paper</a></li>
+          </ul>
+        </div>
+
+        <!-- Games -->
+        <div class="footer-section">
+          <h3>Nos Jeux</h3>
+          <ul>
+            <li><a href="#fist-destroyer">Fist Destroyer</a></li>
+            <li><a href="#fist-detector">Fist Detector</a></li>
+            <li><a href="#meme-battle">Meme Battle</a></li>
+          </ul>
+        </div>
+
+        <!-- Stats -->
+        <div class="footer-section">
+          <h3>Statistiques</h3>
+          <div class="footer-stats">
+            <div><i class="fas fa-eye"></i> <span id="footer-visits">Loading...</span> Visites</div>
+            <div><i class="fas fa-gamepad"></i> <span id="footer-games-played">50,000+</span> Parties Jouées</div>
+            <div><i class="fas fa-users"></i> <span id="footer-active-players">2,500+</span> Joueurs Actifs</div>
+            <div><i class="fas fa-user-check"></i> <span id="footer-holders">10,000+</span> Holders</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Copyright -->
+      <div class="footer-bottom">
+        <p>
+          © 2024 LFIST - Tous droits réservés
+        </p>
+        <p>
+          LFIST est un projet crypto expérimental. Investissez de manière responsable.
+        </p>
+        <div>
+          Fait avec <i class="fas fa-heart"></i> pour la communauté crypto
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/api.js"></script>
+  <script>
+    // Fonction pour jouer à un jeu
+    function playGame(gameId) {
+      const modal = document.getElementById('game-modal');
+      const iframe = document.getElementById('game-frame');
+      
+      // Définir la source de l'iframe en fonction du jeu
+      switch(gameId) {
+        case 'fist-destroyer':
+          iframe.src = 'games/fist-destroyer.html';
+          break;
+        case 'fist-detector':
+          iframe.src = 'games/fist-detector.html';
+          break;
+        case 'meme-battle':
+          iframe.src = 'games/meme-battle.html';
+          break;
+        default:
+          iframe.src = 'games/fist-destroyer.html';
+      }
+      
+      // Afficher le modal
+      modal.style.display = 'flex';
+      
+      // Ajouter l'écouteur d'événement pour fermer le modal
+      document.querySelector('.close-modal').addEventListener('click', function() {
+        modal.style.display = 'none';
+        iframe.src = '';
+      });
+      
+      // Fermer le modal en cliquant en dehors du contenu
+      window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+          iframe.src = '';
+        }
+      });
+    }
+    
+    // Mettre à jour les statistiques des joueurs actifs
+    document.addEventListener('DOMContentLoaded', function() {
+      const activePlayers = document.getElementById('active-players');
+      if (activePlayers) {
+        activePlayers.textContent = Math.floor(2000 + Math.random() * 1000);
+      }
+    });
+  </script>
+  
+  <!-- PWA Support -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+</body>
+</html>

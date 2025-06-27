@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LFIST - Système de Récompenses</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/defi.css" />
+  <meta name="description" content="Convertissez vos points LFIST en tokens et recevez des récompenses amplifiées!" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-animation">
+      <div class="lfist-loader"><i class="fas fa-gift"></i></div>
+      <div class="loading-text" data-i18n="common.loading">CHARGEMENT...</div>
+      <div class="loading-bar">
+        <div class="loading-progress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Price Ticker -->
+  <div id="price-ticker" class="price-ticker">
+    <div class="ticker-content">
+      <span class="ticker-item">
+        <i class="fas fa-chart-line"></i>
+        LFIST: <span id="lfist-price" class="lfist-price-usd">$0.000000</span>
+        <span id="price-change" class="lfist-price-change-24h price-change">+0.00%</span>
+      </span>
+      <span class="ticker-item">
+        <i class="fas fa-users"></i>
+        <span data-i18n="home.holders">Holders</span>: <span id="holder-count">0</span>
+      </span>
+      <span class="ticker-item">
+        <i class="fas fa-trophy"></i>
+        <span data-i18n="leaderboard.topPlayers">Leader du jour</span>: <span id="daily-leader">Chargement...</span>
+      </span>
+      <span class="ticker-item">
+        <i class="fas fa-coins"></i>
+        <span data-i18n="common.points">Points</span>: <span class="user-points-count">0</span>
+      </span>
+    </div>
+  </div>
+
+  <header>
+    <div class="logo">
+      <img src="images/logoLFIST.png" alt="LFIST" class="logo-img" />
+      LFIST
+    </div>
+    <nav class="nav-menu">
+      <a href="index.html" data-i18n="common.home"><i class="fas fa-home"></i> Accueil</a>
+      <a href="games.html" data-i18n="common.games"><i class="fas fa-gamepad"></i> Jeux</a>
+      <a href="memes.html" data-i18n="common.memes"><i class="fas fa-images"></i> Memes</a>
+      <a href="leaderboard.html" data-i18n="common.leaderboard"><i class="fas fa-trophy"></i> Classement</a>
+      <a href="defi.html" data-i18n="common.defi"><i class="fas fa-coins"></i> DeFi</a>
+      <a href="rewards.html" class="active" data-i18n="rewards.title"><i class="fas fa-gift"></i> Récompenses</a>
+      <a href="whitepaper.html" target="_blank" class="whitepaper-link" data-i18n="common.whitepaper"><i class="fas fa-file-alt"></i> White Paper</a>
+    </nav>
+    <div class="header-controls">
+      <button id="connectWallet" class="wallet-btn" data-i18n="common.connectWallet">
+        <i class="fas fa-wallet"></i> Connect Wallet
+      </button>
+      <button id="languageButton" class="language-btn">🇫🇷 Français</button>
+      <div id="burger" class="burger">☰</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          <span class="glitch" data-text="SYSTÈME DE RÉCOMPENSES" data-i18n="rewards.title">SYSTÈME DE RÉCOMPENSES</span>
+          <span class="subtitle" data-i18n="rewards.subtitle">CONVERTISSEZ VOS POINTS EN TOKENS</span>
+        </h1>
+        
+        <p class="hero-description" data-i18n="rewards.description">
+          Nos jeux et activités vous permettent de gagner des points qui peuvent être échangés contre des tokens LFIST. Ces tokens sont bloqués pendant 30 jours et investis pour générer des rendements supplémentaires.
+        </p>
+        
+        <div class="hero-buttons">
+          <button class="btn btn-primary pulse convert-points-btn">
+            <i class="fas fa-exchange-alt"></i> <span data-i18n="rewards.convertNow">CONVERTIR MAINTENANT</span>
+          </button>
+          <button class="btn btn-secondary" id="view-history-btn">
+            <i class="fas fa-history"></i> <span data-i18n="rewards.conversionHistory">HISTORIQUE DES CONVERSIONS</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Points Overview -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title" data-i18n="rewards.pointsBalance">SOLDE DE POINTS</h2>
+          <div class="section-subtitle">
+            <i class="fas fa-sync-alt refresh-defi-data"></i> <span data-i18n="common.lastUpdate">Dernière mise à jour</span>: <span class="last-update-timestamp">00:00:00</span>
+          </div>
+        </div>
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-coins"></i></div>
+            <div class="stat-title" data-i18n="rewards.pointsBalance">Solde de points</div>
+            <div class="stat-value user-points-count">0</div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-exchange-alt"></i></div>
+            <div class="stat-title" data-i18n="rewards.conversionRate">Taux de conversion</div>
+            <div class="stat-value">1000 points = 1 LFIST</div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-arrow-down"></i></div>
+            <div class="stat-title" data-i18n="rewards.minimumConversion">Conversion minimum</div>
+            <div class="stat-value">5000 points</div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-lock"></i></div>
+            <div class="stat-title" data-i18n="rewards.lockPeriod">Période de blocage</div>
+            <div class="stat-value">30 jours</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section bg-gradient">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title" data-i18n="rewards.howItWorks">COMMENT ÇA MARCHE</h2>
+        </div>
+        
+        <div class="steps-container">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <div class="step-icon"><i class="fas fa-gamepad"></i></div>
+            <div class="step-title" data-i18n="rewards.step1">Jouez à nos jeux et participez à nos activités pour gagner des points</div>
+          </div>
+          
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <div class="step-icon"><i class="fas fa-exchange-alt"></i></div>
+            <div class="step-title" data-i18n="rewards.step2">Échangez vos points contre des tokens LFIST (minimum 5000 points)</div>
+          </div>
+          
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <div class="step-icon"><i class="fas fa-chart-line"></i></div>
+            <div class="step-title" data-i18n="rewards.step3">Vos tokens sont bloqués pendant 30 jours et investis</div>
+          </div>
+          
+          <div class="step-card">
+            <div class="step-number">4</div>
+            <div class="step-icon"><i class="fas fa-hand-holding-usd"></i></div>
+            <div class="step-title" data-i18n="rewards.step4">Après 30 jours, récupérez vos tokens LFIST plus les bénéfices générés</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Investment Details -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title" data-i18n="rewards.investmentDetails">DÉTAILS DE L'INVESTISSEMENT</h2>
+        </div>
+        
+        <div class="investment-strategy">
+          <p class="investment-description" data-i18n="rewards.investmentStrategy">
+            Pendant la période de blocage de 30 jours, vos tokens LFIST sont investis dans un portefeuille diversifié de cryptomonnaies à rendement stable. Notre stratégie d'investissement vise à générer un rendement supplémentaire de 5-15% sur vos tokens bloqués.
+          </p>
+          
+          <div class="investment-grid">
+            <div class="investment-card">
+              <div class="investment-header">
+                <div class="investment-icon"><i class="fas fa-chart-pie"></i></div>
+                <div class="investment-title" data-i18n="rewards.currentInvestments">Investissements actuels</div>
+              </div>
+              <div class="investment-body">
+                <div class="investment-item">
+                  <div class="investment-name">Staking ETH</div>
+                  <div class="investment-allocation">30%</div>
+                  <div class="investment-yield">5.5% APY</div>
+                </div>
+                <div class="investment-item">
+                  <div class="investment-name">Farming BNB-BUSD</div>
+                  <div class="investment-allocation">25%</div>
+                  <div class="investment-yield">12% APY</div>
+                </div>
+                <div class="investment-item">
+                  <div class="investment-name">Lending USDT</div>
+                  <div class="investment-allocation">25%</div>
+                  <div class="investment-yield">8% APY</div>
+                </div>
+                <div class="investment-item">
+                  <div class="investment-name">Yield Aggregator</div>
+                  <div class="investment-allocation">20%</div>
+                  <div class="investment-yield">15% APY</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="investment-card">
+              <div class="investment-header">
+                <div class="investment-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="investment-title" data-i18n="rewards.expectedReturn">Rendement attendu</div>
+              </div>
+              <div class="investment-body">
+                <div class="chart-container">
+                  <canvas id="yield-chart"></canvas>
+                </div>
+                <div class="investment-summary">
+                  <div class="summary-item">
+                    <div class="summary-label">APY Moyen</div>
+                    <div class="summary-value">9.5%</div>
+                  </div>
+                  <div class="summary-item">
+                    <div class="summary-label">Rendement sur 30 jours</div>
+                    <div class="summary-value">~0.8%</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="risk-assessment">
+            <h3 class="risk-title" data-i18n="rewards.investmentRisks">Risques d'investissement</h3>
+            <div class="risk-levels">
+              <div class="risk-level">
+                <div class="risk-label" data-i18n="rewards.lowRisk">Risque faible</div>
+                <div class="risk-bar">
+                  <div class="risk-indicator" style="width: 70%;"></div>
+                </div>
+                <div class="risk-description">Staking ETH, Lending USDT</div>
+              </div>
+              <div class="risk-level">
+                <div class="risk-label" data-i18n="rewards.mediumRisk">Risque moyen</div>
+                <div class="risk-bar">
+                  <div class="risk-indicator" style="width: 25%;"></div>
+                </div>
+                <div class="risk-description">Farming BNB-BUSD</div>
+              </div>
+              <div class="risk-level">
+                <div class="risk-label" data-i18n="rewards.highRisk">Risque élevé</div>
+                <div class="risk-bar">
+                  <div class="risk-indicator" style="width: 5%;"></div>
+                </div>
+                <div class="risk-description">Yield Aggregator</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-content">
+          <h2 class="cta-title" data-i18n="rewards.convertNow">CONVERTIR MAINTENANT</h2>
+          <p class="cta-description">
+            <span data-i18n="rewards.pointsBalance">Solde de points</span>: <span class="user-points-count">0</span>
+          </p>
+          <button class="btn btn-primary pulse convert-points-btn">
+            <i class="fas fa-exchange-alt"></i> <span data-i18n="rewards.convertPoints">CONVERTIR MES POINTS</span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-grid">
+        <!-- LFIST Info -->
+        <div class="footer-section">
+          <h3>LFIST</h3>
+          <p>
+            Le memecoin viral qui révolutionne le gaming crypto avec des jeux innovants et une communauté engagée.
+          </p>
+          <div class="social-links">
+            <a href="https://t.me/lfistcoin" target="_blank">
+              <i class="fab fa-telegram"></i>
+            </a>
+            <a href="https://twitter.com/lfistcoin" target="_blank">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://discord.gg/lfist" target="_blank">
+              <i class="fab fa-discord"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-section">
+          <h3>Liens Rapides</h3>
+          <ul>
+            <li><a href="index.html" data-i18n="common.home">Accueil</a></li>
+            <li><a href="games.html" data-i18n="common.games">Jeux</a></li>
+            <li><a href="memes.html" data-i18n="common.memes">Memes</a></li>
+            <li><a href="leaderboard.html" data-i18n="common.leaderboard">Classement</a></li>
+            <li><a href="defi.html" data-i18n="common.defi">DeFi</a></li>
+            <li><a href="rewards.html" data-i18n="rewards.title">Récompenses</a></li>
+            <li><a href="whitepaper.html" data-i18n="common.whitepaper">White Paper</a></li>
+          </ul>
+        </div>
+
+        <!-- Games -->
+        <div class="footer-section">
+          <h3>Nos Jeux</h3>
+          <ul>
+            <li><a href="games.html#fist-destroyer">Fist Destroyer</a></li>
+            <li><a href="games.html#fist-detector">Fist Detector</a></li>
+            <li><a href="games.html#meme-battle">Meme Battle</a></li>
+          </ul>
+        </div>
+
+        <!-- Stats -->
+        <div class="footer-section">
+          <h3>Statistiques</h3>
+          <div class="footer-stats">
+            <div><i class="fas fa-eye"></i> <span id="footer-visits">Loading...</span> Visites</div>
+            <div><i class="fas fa-gamepad"></i> <span id="footer-games-played">50,000+</span> Parties Jouées</div>
+            <div><i class="fas fa-users"></i> <span id="footer-active-players">2,500+</span> Joueurs Actifs</div>
+            <div><i class="fas fa-user-check"></i> <span id="footer-holders">10,000+</span> Holders</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Copyright -->
+      <div class="footer-bottom">
+        <p>
+          © 2024 LFIST - Tous droits réservés
+        </p>
+        <p>
+          LFIST est un projet crypto expérimental. Investissez de manière responsable.
+        </p>
+        <div>
+          Fait avec <i class="fas fa-heart"></i> pour la communauté crypto
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/i18n.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/rewards.js"></script>
+  <script src="js/dexscreener.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialiser le graphique de rendement
+      initYieldChart();
+      
+      // Ajouter l'écouteur d'événement pour le bouton d'historique
+      document.getElementById('view-history-btn').addEventListener('click', function() {
+        window.rewards.showConversionHistory();
+      });
+    });
+    
+    // Initialiser le graphique de rendement
+    function initYieldChart() {
+      const ctx = document.getElementById('yield-chart').getContext('2d');
+      
+      // Données simulées pour le graphique
+      const data = {
+        labels: ['Jour 1', 'Jour 5', 'Jour 10', 'Jour 15', 'Jour 20', 'Jour 25', 'Jour 30'],
+        datasets: [{
+          label: 'Rendement cumulé',
+          data: [0, 0.13, 0.26, 0.4, 0.53, 0.67, 0.8],
+          borderColor: '#00ff88',
+          backgroundColor: 'rgba(0, 255, 136, 0.1)',
+          borderWidth: 2,
+          pointRadius: 3,
+          pointBackgroundColor: '#00ff88',
+          tension: 0.4,
+          fill: true
+        }]
+      };
+      
+      // Configuration du graphique
+      const config = {
+        type: 'line',
+        data: data,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return `Rendement: ${context.raw}%`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: {
+                display: false
+              },
+              ticks: {
+                color: '#cccccc'
+              }
+            },
+            y: {
+              grid: {
+                color: 'rgba(255, 255, 255, 0.05)'
+              },
+              ticks: {
+                color: '#cccccc',
+                callback: function(value) {
+                  return value + '%';
+                }
+              }
+            }
+          }
+        }
+      };
+      
+      // Créer le graphique
+      new Chart(ctx, config);
+    }
+  </script>
+  
+  <!-- PWA Support -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+</body>
+</html>

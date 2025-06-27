@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LFIST - The Viral Memecoin Revolution</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <meta name="description" content="LFIST - Le memecoin le plus viral avec des fonctionnalités uniques : jeux, memes, et communauté explosive!" />
+  <meta property="og:title" content="LFIST - The Viral Memecoin Revolution" />
+  <meta property="og:description" content="Rejoins la révolution LFIST ! Jeux viraux, memes géniaux, et une communauté qui explose !" />
+  <meta property="og:image" content="https://lfist.io/LFIST-VIRAL.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="LFIST - The Viral Memecoin Revolution" />
+  <meta name="twitter:description" content="Le memecoin qui va exploser ! Rejoins-nous maintenant !" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-animation">
+      <div class="lfist-loader">🥊</div>
+      <div class="loading-text" data-i18n="common.loading">CHARGEMENT...</div>
+      <div class="loading-bar">
+        <div class="loading-progress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Price Ticker -->
+  <div id="price-ticker" class="price-ticker">
+    <div class="ticker-content">
+      <span class="ticker-item">
+        <i class="fas fa-chart-line"></i>
+        LFIST: <span id="lfist-price" class="lfist-price-usd">$0.000000</span>
+        <span id="price-change" class="lfist-price-change-24h price-change">+0.00%</span>
+      </span>
+      <span class="ticker-item">
+        <i class="fas fa-users"></i>
+        <span data-i18n="home.holders">Holders</span>: <span id="holder-count">0</span>
+      </span>
+      <span class="ticker-item">
+        <i class="fas fa-trophy"></i>
+        <span data-i18n="leaderboard.topPlayers">Leader du jour</span>: <span id="daily-leader">Chargement...</span>
+      </span>
+      <span class="ticker-item">
+        <i class="fas fa-coins"></i>
+        <span data-i18n="common.points">Points</span>: <span class="user-points-count">0</span>
+      </span>
+    </div>
+  </div>
+
+  <header>
+    <div class="logo">
+      <img src="images/logoLFIST.png" alt="LFIST" class="logo-img" />
+      LFIST
+    </div>
+    <nav class="nav-menu">
+      <a href="index.html" class="active" data-i18n="common.home"><i class="fas fa-home"></i> Accueil</a>
+      <a href="games.html" data-i18n="common.games"><i class="fas fa-gamepad"></i> Jeux</a>
+      <a href="memes.html" data-i18n="common.memes"><i class="fas fa-images"></i> Memes</a>
+      <a href="leaderboard.html" data-i18n="common.leaderboard"><i class="fas fa-trophy"></i> Classement</a>
+      <a href="defi.html" data-i18n="common.defi"><i class="fas fa-coins"></i> DeFi</a>
+      <a href="rewards.html" data-i18n="rewards.title"><i class="fas fa-gift"></i> Récompenses</a>
+      <a href="whitepaper.html" target="_blank" class="whitepaper-link" data-i18n="common.whitepaper"><i class="fas fa-file-alt"></i> White Paper</a>
+    </nav>
+    <div class="header-controls">
+      <button id="connectWallet" class="wallet-btn" data-i18n="common.connectWallet">
+        <i class="fas fa-wallet"></i> Connect Wallet
+      </button>
+      <button id="languageButton" class="language-btn">🇫🇷 Français</button>
+      <div id="burger" class="burger">☰</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+      <div class="hero-bg">
+        <div class="floating-elements">
+          <div class="floating-emoji">🥊</div>
+          <div class="floating-emoji">💎</div>
+          <div class="floating-emoji">🚀</div>
+        </div>
+      </div>
+      
+      <div class="hero-content">
+        <h1 class="hero-title">
+          <span class="glitch" data-text="LFIST">LFIST</span>
+          <span class="subtitle">THE VIRAL MEMECOIN</span>
+        </h1>
+        
+        <p class="hero-description">
+          Plus qu'un memecoin, c'est une <strong>RÉVOLUTION VIRALE</strong>! 
+          Des jeux addictifs, des memes géniaux, et une communauté qui explose ! 
+          <span class="highlight">Rejoins-nous avant l'explosion !</span>
+        </p>
+
+        <!-- Live Stats Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+            <div class="stat-value" id="live-price">$0.000000</div>
+            <div class="stat-label">Prix Live</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-users"></i></div>
+            <div class="stat-value" id="live-holders">0</div>
+            <div class="stat-label">Holders</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-gamepad"></i></div>
+            <div class="stat-value" id="total-games">0</div>
+            <div class="stat-label">Parties Jouées</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-trophy"></i></div>
+            <div class="stat-value" id="top-score">0</div>
+            <div class="stat-label">Meilleur Score</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-eye"></i></div>
+            <div class="stat-value" id="visit-counter">0</div>
+            <div class="stat-label">Visites</div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="hero-buttons">
+          <a href="https://pancakeswap.finance/swap?outputCurrency=0xc0679bF1fda759B7CfC44691b422405Fae84253f" 
+             target="_blank" class="btn btn-primary pulse">
+            <i class="fas fa-rocket"></i> ACHETER MAINTENANT
+          </a>
+          <a href="games.html" class="btn btn-secondary">
+            <i class="fas fa-gamepad"></i> JOUER MAINTENANT
+          </a>
+          <a href="memes.html" class="btn btn-meme">
+            <i class="fas fa-magic"></i> CRÉER UN MEME
+          </a>
+        </div>
+
+        <!-- Social Share Buttons -->
+        <div class="social-share">
+          <h3>Partagez la révolution LFIST</h3>
+          <div class="share-buttons">
+            <button class="share-btn twitter" onclick="shareTwitter()">
+              <i class="fab fa-twitter"></i> Tweet
+            </button>
+            <button class="share-btn telegram" onclick="shareTelegram()">
+              <i class="fab fa-telegram"></i> Share
+            </button>
+            <button class="share-btn facebook" onclick="shareFacebook()">
+              <i class="fab fa-facebook"></i> Share
+            </button>
+            <button class="share-btn copy" onclick="copyShareLink()">
+              <i class="fas fa-copy"></i> Copy Link
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Games Section Preview -->
+    <section id="games-preview" class="games-section">
+      <h2 class="section-title">LFIST GAMES HUB</h2>
+      <p class="section-subtitle">Joue, gagne, et deviens viral!</p>
+      
+      <div class="games-grid">
+        <div class="game-card featured">
+          <div class="game-image">
+            <img src="images/fist-destroyer-preview.png" alt="Fist Destroyer" />
+            <div class="game-badge">VIRAL</div>
+          </div>
+          <div class="game-info">
+            <h3>Fist Destroyer</h3>
+            <p>Détruis les memecoins rivaux et gagne des $LFIST!</p>
+            <div class="game-stats">
+              <span><i class="fas fa-play"></i> 50,000+ parties</span>
+              <span><i class="fas fa-star"></i> 4.9/5</span>
+            </div>
+            <a href="games.html#fist-destroyer" class="play-btn">
+              <i class="fas fa-play"></i> JOUER
+            </a>
+          </div>
+        </div>
+
+        <div class="game-card">
+          <div class="game-image">
+            <img src="images/fist-detector-preview.png" alt="Fist Detector" />
+            <div class="game-badge">SKILL</div>
+          </div>
+          <div class="game-info">
+            <h3>Fist Detector</h3>
+            <p>Détecte les vrais projets crypto parmi les scams!</p>
+            <div class="game-stats">
+              <span><i class="fas fa-play"></i> 25,000+ parties</span>
+              <span><i class="fas fa-star"></i> 4.8/5</span>
+            </div>
+            <a href="games.html#fist-detector" class="play-btn">
+              <i class="fas fa-play"></i> JOUER
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="section-cta">
+        <a href="games.html" class="btn btn-secondary">
+          <i class="fas fa-gamepad"></i> VOIR TOUS LES JEUX
+        </a>
+      </div>
+    </section>
+
+    <!-- Tokenomics Section -->
+    <section id="tokenomics" class="tokenomics-section">
+      <h2 class="section-title">TOKENOMICS</h2>
+      <p class="section-subtitle">Économie transparente avec données en temps réel</p>
+      
+      <!-- Live Price Chart -->
+      <div class="price-chart-container">
+        <div class="chart-header">
+          <h3>Prix en Temps Réel</h3>
+          <div class="chart-controls">
+            <button class="chart-btn active" onclick="changeTimeframe('1H')">1H</button>
+            <button class="chart-btn" onclick="changeTimeframe('24H')">24H</button>
+            <button class="chart-btn" onclick="changeTimeframe('7D')">7D</button>
+            <button class="chart-btn" onclick="changeTimeframe('30D')">30D</button>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="price-chart" width="800" height="400"></canvas>
+        </div>
+      </div>
+
+      <!-- Contract Info -->
+      <div class="contract-info enhanced">
+        <h3>Informations du Contrat</h3>
+        <div class="contract-details">
+          <div class="contract-item">
+            <span class="label">Adresse du Contrat:</span>
+            <div class="address-container">
+              <span class="address" id="contractAddress">0xc0679bF1fda759B7CfC44691b422405Fae84253f</span>
+              <button class="copy-btn" onclick="copyContract()">
+                <i class="fas fa-copy"></i>
+              </button>
+            </div>
+          </div>
+          
+          <div class="contract-links">
+            <a href="https://bscscan.com/address/0xc0679bF1fda759B7CfC44691b422405Fae84253f" 
+               target="_blank" class="link-btn">
+              <i class="fas fa-search"></i> BSCScan
+            </a>
+            <a href="https://pancakeswap.finance/swap?outputCurrency=0xc0679bF1fda759B7CfC44691b422405Fae84253f" 
+               target="_blank" class="link-btn">
+              <i class="fab fa-canadian-maple-leaf"></i> PancakeSwap
+            </a>
+            <a href="https://dexscreener.com/bsc/0xc0679bF1fda759B7CfC44691b422405Fae84253f" 
+               target="_blank" class="link-btn">
+              <i class="fas fa-chart-bar"></i> DexScreener
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Stats Grid -->
+      <div class="live-stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-coins"></i></div>
+          <div class="stat-value" id="market-cap">$0</div>
+          <div class="stat-label">Market Cap</div>
+          <div class="stat-change" id="mc-change">+0.00%</div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-water"></i></div>
+          <div class="stat-value" id="liquidity">$0</div>
+          <div class="stat-label">Liquidité</div>
+          <div class="stat-change" id="liq-change">+0.00%</div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-chart-bar"></i></div>
+          <div class="stat-value" id="volume-24h">$0</div>
+          <div class="stat-label">Volume 24h</div>
+          <div class="stat-change" id="vol-change">+0.00%</div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-fire"></i></div>
+          <div class="stat-value" id="burned-tokens">0</div>
+          <div class="stat-label">Tokens Brûlés</div>
+          <div class="stat-change">DÉFLATIONNAIRE</div>
+        </div>
+      </div>
+
+      <!-- Distribution Chart -->
+      <div class="tokenomics-visual">
+        <h3>Distribution des Tokens</h3>
+        <div class="distribution-chart">
+          <div class="chart-pie">
+            <canvas id="distribution-pie" width="300" height="300"></canvas>
+          </div>
+          <div class="distribution-legend">
+            <div class="legend-item">
+              <div class="legend-color" style="background: #00ff88;"></div>
+              <span>Liquidity Pool: 80%</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background: #ff6b6b;"></div>
+              <span>Development: 10%</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background: #4ecdc4;"></div>
+              <span>Marketing: 10%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Community Section -->
+    <section id="community" class="community-section">
+      <h2 class="section-title">COMMUNAUTÉ LFIST</h2>
+      <p class="section-subtitle">Rejoins notre communauté mondiale de LFISters!</p>
+      
+      <div class="community-stats">
+        <div class="community-stat">
+          <div class="stat-icon"><i class="fab fa-telegram"></i></div>
+          <div class="stat-number" id="telegram-members">25,000+</div>
+          <div class="stat-label">Membres Telegram</div>
+        </div>
+        <div class="community-stat">
+          <div class="stat-icon"><i class="fab fa-twitter"></i></div>
+          <div class="stat-number" id="twitter-followers">15,000+</div>
+          <div class="stat-label">Followers Twitter</div>
+        </div>
+        <div class="community-stat">
+          <div class="stat-icon"><i class="fab fa-discord"></i></div>
+          <div class="stat-number" id="discord-members">10,000+</div>
+          <div class="stat-label">Membres Discord</div>
+        </div>
+      </div>
+
+      <div class="community-buttons">
+        <a href="https://t.me/lfist_official" target="_blank" class="community-btn telegram">
+          <i class="fab fa-telegram"></i>
+          <span>Rejoindre Telegram</span>
+          <div class="btn-glow"></div>
+        </a>
+        <a href="https://twitter.com/lfist_official" target="_blank" class="community-btn twitter">
+          <i class="fab fa-twitter"></i>
+          <span>Suivre sur Twitter</span>
+          <div class="btn-glow"></div>
+        </a>
+        <a href="https://discord.gg/lfist" target="_blank" class="community-btn discord">
+          <i class="fab fa-discord"></i>
+          <span>Rejoindre Discord</span>
+          <div class="btn-glow"></div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+      <h2 class="section-title">CONTACT</h2>
+      <p class="section-subtitle">Contactez l'équipe LFIST pour toute question ou suggestion</p>
+      
+      <div class="contact-container">
+        <form id="contact-form" class="contact-form" onsubmit="handleContactForm(event)">
+          <div class="form-group">
+            <label for="contact-email">Email</label>
+            <input type="email" id="contact-email" name="email" required placeholder="votre@email.com">
+          </div>
+          
+          <div class="form-group">
+            <label for="contact-subject">Sujet</label>
+            <select id="contact-subject" name="subject" required>
+              <option value="">Sélectionner un sujet</option>
+              <option value="support">Support Technique</option>
+              <option value="partnership">Partenariat</option>
+              <option value="feedback">Feedback</option>
+              <option value="other">Autre</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="contact-message">Message</label>
+            <textarea id="contact-message" name="message" required rows="5" placeholder="Votre message..."></textarea>
+          </div>
+          
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-paper-plane"></i> Envoyer Message
+          </button>
+        </form>
+        
+        <div id="contact-success" class="contact-result success">
+          <h3>Message Envoyé!</h3>
+          <p>Merci pour votre message. Nous vous répondrons dans les 24h.</p>
+        </div>
+        
+        <div id="contact-error" class="contact-result error">
+          <h3>Erreur</h3>
+          <p>Une erreur s'est produite. Veuillez réessayer ou nous contacter directement sur Telegram.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-grid">
+        <!-- LFIST Info -->
+        <div class="footer-section">
+          <h3>LFIST</h3>
+          <p>
+            Le memecoin viral qui révolutionne le gaming crypto avec des jeux innovants et une communauté engagée.
+          </p>
+          <div class="social-links">
+            <a href="https://t.me/lfistcoin" target="_blank">
+              <i class="fab fa-telegram"></i>
+            </a>
+            <a href="https://twitter.com/lfistcoin" target="_blank">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://discord.gg/lfist" target="_blank">
+              <i class="fab fa-discord"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-section">
+          <h3>Liens Rapides</h3>
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="games.html">Jeux</a></li>
+            <li><a href="memes.html">Memes</a></li>
+            <li><a href="leaderboard.html">Classement</a></li>
+            <li><a href="defi.html">DeFi</a></li>
+            <li><a href="whitepaper.html">White Paper</a></li>
+          </ul>
+        </div>
+
+        <!-- Games -->
+        <div class="footer-section">
+          <h3>Nos Jeux</h3>
+          <ul>
+            <li><a href="games.html#fist-destroyer">Fist Destroyer</a></li>
+            <li><a href="games.html#fist-detector">Fist Detector</a></li>
+            <li><a href="games.html#meme-battle">Meme Battle</a></li>
+          </ul>
+        </div>
+
+        <!-- Stats -->
+        <div class="footer-section">
+          <h3>Statistiques</h3>
+          <div class="footer-stats">
+            <div><i class="fas fa-eye"></i> <span id="footer-visits">Loading...</span> Visites</div>
+            <div><i class="fas fa-gamepad"></i> <span id="footer-games-played">50,000+</span> Parties Jouées</div>
+            <div><i class="fas fa-users"></i> <span id="footer-active-players">2,500+</span> Joueurs Actifs</div>
+            <div><i class="fas fa-user-check"></i> <span id="footer-holders">10,000+</span> Holders</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Copyright -->
+      <div class="footer-bottom">
+        <p>
+          © 2024 LFIST - Tous droits réservés
+        </p>
+        <p>
+          LFIST est un projet crypto expérimental. Investissez de manière responsable.
+        </p>
+        <div>
+          Fait avec <i class="fas fa-heart"></i> pour la communauté crypto
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/i18n.js"></script>
+  <script src="js/user-context.js"></script>
+  <script src="js/welcome-modal.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/rewards.js"></script>
+  <script src="js/dexscreener.js"></script>
+  <script src="js/defi.js"></script>
+  
+  <!-- PWA Support -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+  
+  <!-- Styles supplémentaires pour centrer et améliorer la présentation -->
+  <style>
+    /* Centrage des sections */
+    .section-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Amélioration de la présentation des cartes */
+    .card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Styles spécifiques au mode débutant */
+    .beginner-mode .beginner-help {
+      display: block;
+      background-color: rgba(79, 140, 255, 0.1);
+      border-left: 4px solid #4f8cff;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 0 5px 5px 0;
+    }
+    
+    .classic-mode .beginner-help {
+      display: none;
+    }
+    
+    /* Amélioration des formulaires */
+    input, select, textarea {
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      border-color: #4f8cff;
+      box-shadow: 0 0 0 2px rgba(79, 140, 255, 0.2);
+      outline: none;
+    }
+    
+    /* Amélioration des boutons */
+    .btn {
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+    
+    .btn:active {
+      transform: translateY(1px);
+    }
+    
+    /* Amélioration de la navigation */
+    .nav-link {
+      position: relative;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #4f8cff;
+      transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    
+    /* Amélioration des tableaux */
+    table {
+      border-collapse: separate;
+      border-spacing: 0;
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    th {
+      background-color: rgba(79, 140, 255, 0.1);
+      font-weight: bold;
+    }
+    
+    tr:last-child td {
+      border-bottom: none;
+    }
+    
+    tr:hover td {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+  </style>
+</body>
+</html>
