@@ -1,0 +1,551 @@
+/**
+ * LFIST - Styles DeFi
+ * Styles spécifiques pour les pages DeFi et Rewards
+ */
+
+/* Tokenomics */
+.tokenomics-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.tokenomics-card {
+  background: rgba(26, 26, 46, 0.5);
+  border-radius: 15px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  transition: all 0.3s ease;
+}
+
+.tokenomics-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  border-color: var(--primary-color);
+}
+
+.tokenomics-header {
+  background: rgba(0, 255, 136, 0.1);
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.tokenomics-icon {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+}
+
+.tokenomics-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.tokenomics-body {
+  padding: 1.5rem;
+}
+
+.tokenomics-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tokenomics-item:last-child {
+  border-bottom: none;
+}
+
+.tokenomics-label {
+  color: var(--text-secondary);
+}
+
+.tokenomics-value {
+  font-weight: bold;
+}
+
+.tokenomics-address {
+  font-size: 0.8rem;
+  word-break: break-all;
+}
+
+.tokenomics-chart-container {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 1.5rem;
+}
+
+.tokenomics-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legend-color {
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+}
+
+.legend-label {
+  font-size: 0.9rem;
+}
+
+/* Taxes */
+.tokenomics-taxes {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.tax-item {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.tax-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+
+.tax-breakdown {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  text-align: center;
+}
+
+.tax-part {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.tax-percent {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.tax-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* Staking Pools */
+.staking-pools {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.pool-card {
+  background: rgba(26, 26, 46, 0.8);
+  border-radius: 15px;
+  overflow: hidden;
+  border: 1px solid rgba(79, 140, 255, 0.3);
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transform: translateZ(0); /* Prévient le tremblement */
+  will-change: transform; /* Optimise les animations */
+}
+
+.pool-card:hover {
+  transform: translateY(-5px) translateZ(0);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  border-color: rgba(79, 140, 255, 0.8);
+}
+
+.pool-header {
+  background: rgba(79, 140, 255, 0.1);
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pool-icon {
+  width: 50px;
+  height: 50px;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(79, 140, 255, 0.2);
+  border-radius: 50%;
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  flex-shrink: 0;
+}
+
+.pool-icon img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: contain;
+}
+
+.pool-title {
+  flex-grow: 1;
+}
+
+.pool-title h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.pool-apy {
+  font-size: 0.9rem;
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.pool-body {
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.pool-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.3rem;
+}
+
+.info-value {
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.pool-actions {
+  margin-top: auto;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pool-actions .btn {
+  flex: 1;
+  padding: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.staking-pool {
+  background: rgba(26, 26, 46, 0.5);
+  border-radius: 15px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  transition: all 0.3s ease;
+}
+
+.staking-pool:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  border-color: var(--primary-color);
+}
+
+.pool-header {
+  background: rgba(0, 255, 136, 0.1);
+  padding: 1.5rem;
+  text-align: center;
+  position: relative;
+}
+
+.pool-icon {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.pool-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.pool-apy {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.pool-body {
+  padding: 1.5rem;
+}
+
+.pool-info {
+  margin-bottom: 1.5rem;
+}
+
+.pool-info-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pool-info-item:last-child {
+  border-bottom: none;
+}
+
+.pool-info-label {
+  color: var(--text-secondary);
+}
+
+.pool-info-value {
+  font-weight: bold;
+}
+
+.pool-actions {
+  display: flex;
+  justify-content: center;
+}
+
+/* Trading Pairs */
+.pairs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.pair-card {
+  background: rgba(26, 26, 46, 0.5);
+  border-radius: 15px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  transition: all 0.3s ease;
+}
+
+.pair-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  border-color: var(--primary-color);
+}
+
+.pair-header {
+  background: rgba(0, 255, 136, 0.1);
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+.pair-icons {
+  display: flex;
+  align-items: center;
+}
+
+.pair-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  padding: 5px;
+  margin: 0 -5px;
+  border: 2px solid var(--bg-primary);
+}
+
+.pair-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.pair-body {
+  padding: 1.5rem;
+}
+
+.pair-stat {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pair-stat:last-child {
+  border-bottom: none;
+}
+
+.pair-stat-label {
+  color: var(--text-secondary);
+}
+
+.pair-stat-value {
+  font-weight: bold;
+}
+
+.pair-footer {
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-around;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.pair-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.pair-link:hover {
+  color: #fff;
+}
+
+/* Chart Tabs */
+.chart-period-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.chart-period-tab {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.chart-period-tab:hover {
+  background: rgba(0, 255, 136, 0.1);
+  color: var(--primary-color);
+}
+
+.chart-period-tab.active {
+  background: rgba(0, 255, 136, 0.2);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.chart-container {
+  width: 100%;
+  height: 400px;
+  margin: 2rem 0;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  padding: 1.5rem;
+}
+
+.chart-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.chart-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.chart-link:hover {
+  color: #fff;
+}
+
+/* Staking Modal */
+.staking-details {
+  background: rgba(26, 26, 46, 0.5);
+  border-radius: 10px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tokenomics-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .staking-pools {
+    grid-template-columns: 1fr;
+  }
+  
+  .pairs-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .tax-breakdown {
+    grid-template-columns: 1fr;
+  }
+  
+  .chart-container {
+    height: 300px;
+  }
+  
+  .chart-links {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .tokenomics-legend {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .chart-period-tabs {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .chart-period-tab {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+  }
+  
+  .chart-container {
+    height: 250px;
+    padding: 1rem;
+  }
+  
+  .tokenomics-legend {
+    grid-template-columns: 1fr;
+  }
+}

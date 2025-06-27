@@ -1,0 +1,109 @@
+/**
+ * Styles personnalisés pour la page DeFi
+ * Correction des problèmes d'affichage et amélioration de l'UI
+ */
+
+/* Correction du tremblement dans les sections */
+.section-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* Styles pour les icônes de tokens */
+.pool-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #f8f9fa;
+  overflow: hidden;
+  margin-right: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.pool-icon img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+/* Styles pour les paires de tokens */
+.token-pair {
+  position: relative;
+  width: 50px;
+  height: 50px;
+}
+
+.token-pair img:first-child {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 35px;
+  height: 35px;
+  z-index: 2;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+.token-pair img:last-child {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 35px;
+  height: 35px;
+  z-index: 1;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+/* Amélioration des cartes de pool */
+.pool-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.pool-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Style pour les infobulles d'aide */
+.beginner-help {
+  background-color: rgba(79, 140, 255, 0.1);
+  border-left: 3px solid #4f8cff;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 0 4px 4px 0;
+  font-size: 0.9em;
+}
+
+.beginner-help p {
+  margin: 0;
+}
+
+/* Amélioration des boutons d'action */
+.pool-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pool-actions .btn {
+  flex: 1;
+  min-width: 120px;
+}
+
+/* Responsive design pour les cartes de pool */
+@media (max-width: 768px) {
+  .staking-pools, .farming-pools {
+    grid-template-columns: 1fr;
+  }
+  
+  .pool-actions {
+    flex-direction: column;
+  }
+}
